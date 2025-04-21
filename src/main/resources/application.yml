@@ -14,3 +14,8 @@ spring:
     open-in-view: false
     properties:
       hibernate:
+
+logging:
+  level:
+    #root: INFO
+    com.jhonn.santt4na_rest: DEBUG
