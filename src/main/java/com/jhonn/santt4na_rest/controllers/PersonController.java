@@ -1,6 +1,7 @@
 package com.jhonn.santt4na_rest.controllers;
 
-import com.jhonn.santt4na_rest.dataDTO.PersonDTO;
+import com.jhonn.santt4na_rest.dataDTO.v1.PersonDTO;
+import com.jhonn.santt4na_rest.dataDTO.v2.PersonDTOV2;
 import com.jhonn.santt4na_rest.services.PersonServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -55,6 +56,16 @@ public class PersonController{
 	public ResponseEntity<?> delete(@PathVariable("id") Long id){
 		service.delete(id);
 		return ResponseEntity.noContent().build();
+	}
+	
+	//POST http://localhost:8080/person/v2
+	@PostMapping(
+		value = "/v2",
+		consumes = MediaType.APPLICATION_JSON_VALUE,
+		produces = MediaType.APPLICATION_JSON_VALUE
+	)
+	public PersonDTOV2 create(@RequestBody PersonDTOV2 person){
+		return service.createV2(person);
 	}
 	
 }

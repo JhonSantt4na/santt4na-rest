@@ -1,6 +1,6 @@
 package com.jhonn.santt4na_rest.unitariosTestes;
 
-import com.jhonn.santt4na_rest.dataDTO.PersonDTO;
+import com.jhonn.santt4na_rest.dataDTO.v1.PersonDTO;
 import com.jhonn.santt4na_rest.mocks.MockPerson;
 import com.jhonn.santt4na_rest.model.Person;
 import org.junit.jupiter.api.BeforeEach;

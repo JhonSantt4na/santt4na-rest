@@ -1,4 +1,4 @@
-package com.jhonn.santt4na_rest.dataDTO;
+package com.jhonn.santt4na_rest.dataDTO.v1;
 
 import java.io.Serializable;
 import java.util.Objects;
