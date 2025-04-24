@@ -1,16 +1,27 @@
 package com.jhonn.santt4na_rest.dataDTO.v1;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
 import java.io.Serializable;
 import java.util.Objects;
 
+@JsonPropertyOrder({"id", "address","first_name", "last_name", "gender"}) // Selection order the attribute
 public class PersonDTO implements Serializable {
 	
 	private static final long serialversionUID = 1l;
 	
 	private Long id;
+	
+	@JsonProperty("first_name")
 	private String firstName;
+	
+	@JsonProperty("last_name") // Rename the attribute
 	private String lastName;
 	private String address;
+	
+	@JsonIgnore //Ignore the attribute
 	private String gender;
 	
 	public PersonDTO() {
