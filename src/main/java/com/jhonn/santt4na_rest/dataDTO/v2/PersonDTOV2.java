@@ -1,5 +1,7 @@
 package com.jhonn.santt4na_rest.dataDTO.v2;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
@@ -11,7 +13,10 @@ public class PersonDTOV2 implements Serializable {
 	private Long id;
 	private String firstName;
 	private String lastName;
+	
+	@JsonFormat(pattern = "dd/MM/yyyy")
 	private Date birthDay;
+	
 	private String address;
 	private String gender;
 	

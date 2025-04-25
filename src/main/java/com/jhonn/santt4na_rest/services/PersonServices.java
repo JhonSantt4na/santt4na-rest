@@ -35,7 +35,6 @@ public class PersonServices {
 	
 	public List<PersonDTO> findAll(){
 		logger.info("Finding all Person!");
-		
 		return parseObjects(repository.findAll(), PersonDTO.class);
 	}
 	
