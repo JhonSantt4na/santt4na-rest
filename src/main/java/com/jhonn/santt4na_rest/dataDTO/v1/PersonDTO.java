@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import com.jhonn.santt4na_rest.mapper.ObjectMapper;
 import com.jhonn.santt4na_rest.serializer.GenderSerializer;
 
@@ -17,9 +18,11 @@ import java.util.Objects;
 
 //@JsonPropertyOrder({"id", "address","first_name", "last_name", "gender"}) // Selection order the attribute
 //@JsonFilter("PersonFilter")
+@JacksonXmlRootElement(localName = "Person")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class PersonDTO implements Serializable {
 	
-	private static final long serialversionUID = 1l;
+	private static final long serialversionUID = 1L;
 	
 	private Long id;
 	
