@@ -11,6 +11,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import com.jhonn.santt4na_rest.mapper.ObjectMapper;
 import com.jhonn.santt4na_rest.serializer.GenderSerializer;
+import org.springframework.hateoas.RepresentationModel;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -20,7 +21,7 @@ import java.util.Objects;
 //@JsonFilter("PersonFilter")
 @JacksonXmlRootElement(localName = "Person")
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class PersonDTO implements Serializable {
+public class PersonDTO extends RepresentationModel<PersonDTO> implements Serializable {
 	
 	private static final long serialversionUID = 1L;
 	
