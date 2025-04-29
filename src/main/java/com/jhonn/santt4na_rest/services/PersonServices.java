@@ -3,6 +3,7 @@ package com.jhonn.santt4na_rest.services;
 import com.jhonn.santt4na_rest.controllers.PersonController;
 import com.jhonn.santt4na_rest.dataDTO.v1.PersonDTO;
 import com.jhonn.santt4na_rest.dataDTO.v2.PersonDTOV2;
+import com.jhonn.santt4na_rest.exceptions.RequiredObjectIsNullException;
 import com.jhonn.santt4na_rest.exceptions.ResourceNotFoundException;
 import static com.jhonn.santt4na_rest.mapper.ObjectMapper.parseObjects;
 import static com.jhonn.santt4na_rest.mapper.ObjectMapper.parseObject;
@@ -55,6 +56,9 @@ public class PersonServices {
 	
 	public PersonDTO create(PersonDTO person) {
 		logger.info("Creating one Person!");
+		if (person == null) {
+			throw new RequiredObjectIsNullException("It is not allowed to persist a null object!");
+		}
 		var entity = parseObject(person, Person.class);
 		var dto = parseObject(repository.save(entity), PersonDTO.class);
 		addHateoasLinks(dto);
@@ -70,6 +74,9 @@ public class PersonServices {
 	
 	public PersonDTO update(PersonDTO person) {
 		logger.info("Updating one Person!");
+		if (person == null) {
+			throw new RequiredObjectIsNullException("It is not allowed to persist a null object!");
+		}
 		Person entity = repository.findById(person.getId())
 			.orElseThrow(()-> new ResourceNotFoundException("No Records found for this ID"));
 		
