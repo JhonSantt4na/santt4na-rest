@@ -1,24 +1,13 @@
 package com.jhonn.santt4na_rest.dataDTO.v1;
 
-//import com.fasterxml.jackson.annotation.JsonFormat;
-//import com.fasterxml.jackson.annotation.JsonIgnore;
-//import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonFilter;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
-import com.jhonn.santt4na_rest.mapper.ObjectMapper;
-import com.jhonn.santt4na_rest.serializer.GenderSerializer;
 import org.springframework.hateoas.RepresentationModel;
 
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
-//@JsonPropertyOrder({"id", "address","first_name", "last_name", "gender"}) // Selection order the attribute
-//@JsonFilter("PersonFilter")
 @JacksonXmlRootElement(localName = "Person")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class PersonDTO extends RepresentationModel<PersonDTO> implements Serializable {
@@ -27,23 +16,16 @@ public class PersonDTO extends RepresentationModel<PersonDTO> implements Seriali
 	
 	private Long id;
 	
-	//@JsonProperty("first_name")
 	private String firstName;
 	
-	//@JsonProperty("last_name") // Rename the attribute
-	//@JsonInclude(JsonInclude.Include.NON_NULL) // It will not be rendered if it is different from null
 	private String lastName;
 	
-	//@JsonInclude(JsonInclude.Include.NON_EMPTY) // It will not be rendered if it is different from empty
 	private String phoneNumber;
 	
 	private String address;
 	
-	//@JsonFormat(pattern = "dd/MM/yyyy")
 	private Date birthDay;
 	
-	//@JsonIgnore //Ignore the attribute
-	//@JsonSerialize(using = GenderSerializer.class) //Serializer the attribute
 	private String gender;
 	
 	private String sensitiveData;

@@ -20,28 +20,25 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
 
 
 @Service
-public class PersonServices {
+public class PersonService {
 	
-	private final Logger logger = LoggerFactory.getLogger(PersonServices.class.getName());
-	private final AtomicLong counter = new AtomicLong();
-	
+	private final Logger logger = LoggerFactory.getLogger(PersonService.class.getName());
 	@Autowired
 	PersonMapper converter;
 	
 	private final PersonRepository repository;
 	
-	public PersonServices(PersonRepository repository) {
+	public PersonService(PersonRepository repository) {
 		this.repository = repository;
 	}
 	
 	public List<PersonDTO> findAll(){
 		logger.info("Finding all Person!");
 		var persons = parseObjects(repository.findAll(), PersonDTO.class);
-		persons.forEach(PersonServices::addHateoasLinks);
+		persons.forEach(PersonService::addHateoasLinks);
 		return persons;
 	}
 	

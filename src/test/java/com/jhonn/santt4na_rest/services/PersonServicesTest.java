@@ -29,7 +29,7 @@ class PersonServicesTest {
 	private PersonRepository repository;
 	
 	@InjectMocks
-	private PersonServices service;
+	private PersonService service;
 	
 	@Test
 	void findById() {
