@@ -2,6 +2,7 @@ package com.jhonn.santt4na_rest.dataDTO.v1;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.Objects;
 
 public class BookDTO {
@@ -39,7 +40,7 @@ public class BookDTO {
 		return launch_date;
 	}
 	
-	public void setLaunch_date(LocalDateTime launch_date) {
+	public void setLaunch_date(Date launch_date) {
 		this.launch_date = launch_date;
 	}
 	
