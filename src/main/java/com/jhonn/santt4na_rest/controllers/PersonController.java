@@ -3,7 +3,7 @@ package com.jhonn.santt4na_rest.controllers;
 import com.jhonn.santt4na_rest.controllers.docs.PersonControllerDocs;
 import com.jhonn.santt4na_rest.dataDTO.v1.PersonDTO;
 import com.jhonn.santt4na_rest.dataDTO.v2.PersonDTOV2;
-import com.jhonn.santt4na_rest.services.PersonService;
+import com.jhonn.santt4na_rest.services.PersonServices;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -15,10 +15,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/person/v1")
 @Tag(name = "People", description = "Endpoints for Managing People")
-public class BookController implements PersonControllerDocs {
+public class PersonController implements PersonControllerDocs {
 	
 	@Autowired
-	private PersonService service;
+	private PersonServices service;
 	
 	@GetMapping(produces = {
 		MediaType.APPLICATION_JSON_VALUE,

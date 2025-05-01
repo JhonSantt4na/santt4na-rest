@@ -1,7 +1,6 @@
 package com.jhonn.santt4na_rest.controllers.docs;
 
 import com.jhonn.santt4na_rest.dataDTO.v1.BookDTO;
-import com.jhonn.santt4na_rest.dataDTO.v1.PersonDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -12,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import java.awt.print.Book;
 import java.util.List;
 
 public interface BookControllerDocs {
@@ -26,15 +24,15 @@ public interface BookControllerDocs {
 				content = {
 					@Content(
 						mediaType = MediaType.APPLICATION_JSON_VALUE,
-						array = @ArraySchema(schema = @Schema(implementation = PersonDTO.class))
+						array = @ArraySchema(schema = @Schema(implementation = BookDTO.class))
 					),
 					@Content(
 						mediaType = MediaType.APPLICATION_XML_VALUE,
-						array = @ArraySchema(schema = @Schema(implementation = PersonDTO.class))
+						array = @ArraySchema(schema = @Schema(implementation = BookDTO.class))
 					),
 					@Content(
 						mediaType = MediaType.APPLICATION_YAML_VALUE,
-						array = @ArraySchema(schema = @Schema(implementation = PersonDTO.class)))
+						array = @ArraySchema(schema = @Schema(implementation = BookDTO.class)))
 				}
 			),
 			@ApiResponse(description = "No Content", responseCode = "204", content = @Content),
@@ -53,7 +51,7 @@ public interface BookControllerDocs {
 			@ApiResponse(
 				description = "Success",
 				responseCode = "200",
-				content = @Content(schema = @Schema(implementation = PersonDTO.class))
+				content = @Content(schema = @Schema(implementation = BookDTO.class))
 			),
 			@ApiResponse(description = "No Content", responseCode = "204", content = @Content),
 			@ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
@@ -71,7 +69,7 @@ public interface BookControllerDocs {
 			@ApiResponse(
 				description = "Success",
 				responseCode = "200",
-				content = @Content(schema = @Schema(implementation = PersonDTO.class))
+				content = @Content(schema = @Schema(implementation = BookDTO.class))
 			),
 			@ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
 			@ApiResponse(description = "Unauthorized", responseCode = "401", content = @Content),
@@ -87,7 +85,7 @@ public interface BookControllerDocs {
 			@ApiResponse(
 				description = "Success",
 				responseCode = "200",
-				content = @Content(schema = @Schema(implementation = PersonDTO.class))
+				content = @Content(schema = @Schema(implementation = BookDTO.class))
 			),
 			@ApiResponse(description = "No Content", responseCode = "204", content = @Content),
 			@ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
@@ -105,7 +103,7 @@ public interface BookControllerDocs {
 			@ApiResponse(
 				description = "Success",
 				responseCode = "200",
-				content = @Content(schema = @Schema(implementation = PersonDTO.class))
+				content = @Content(schema = @Schema(implementation = BookDTO.class))
 			),
 			@ApiResponse(description = "No Content", responseCode = "204", content = @Content),
 			@ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),

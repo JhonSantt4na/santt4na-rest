@@ -23,22 +23,22 @@ import java.util.List;
 
 
 @Service
-public class PersonService {
+public class PersonServices {
 	
-	private final Logger logger = LoggerFactory.getLogger(PersonService.class.getName());
+	private final Logger logger = LoggerFactory.getLogger(PersonServices.class.getName());
 	@Autowired
 	PersonMapper converter;
 	
 	private final PersonRepository repository;
 	
-	public PersonService(PersonRepository repository) {
+	public PersonServices(PersonRepository repository) {
 		this.repository = repository;
 	}
 	
 	public List<PersonDTO> findAll(){
 		logger.info("Finding all Person!");
 		var persons = parseObjects(repository.findAll(), PersonDTO.class);
-		persons.forEach(PersonService::addHateoasLinks);
+		persons.forEach(PersonServices::addHateoasLinks);
 		return persons;
 	}
 	
