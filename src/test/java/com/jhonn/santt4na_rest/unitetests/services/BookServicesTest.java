@@ -1,8 +1,8 @@
-package com.jhonn.santt4na_rest.services;
+package com.jhonn.santt4na_rest.unitetests.services;
 
 import com.jhonn.santt4na_rest.dataDTO.v1.BookDTO;
 import com.jhonn.santt4na_rest.exceptions.RequiredObjectIsNullException;
-import com.jhonn.santt4na_rest.mocks.MockBook;
+import com.jhonn.santt4na_rest.unitetests.mapper.mocks.MockBook;
 import com.jhonn.santt4na_rest.model.Book;
 import com.jhonn.santt4na_rest.repository.BookRepository;
 import org.junit.jupiter.api.Test;

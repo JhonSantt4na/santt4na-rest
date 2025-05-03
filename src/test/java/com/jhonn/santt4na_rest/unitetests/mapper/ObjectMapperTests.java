@@ -1,7 +1,7 @@
-package com.jhonn.santt4na_rest.unitariosTestes;
+package com.jhonn.santt4na_rest.unitetests.mapper;
 
 import com.jhonn.santt4na_rest.dataDTO.v1.PersonDTO;
-import com.jhonn.santt4na_rest.mocks.MockPerson;
+import com.jhonn.santt4na_rest.unitetests.mapper.mocks.MockPerson;
 import com.jhonn.santt4na_rest.model.Person;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -1,4 +1,4 @@
-package com.jhonn.santt4na_rest.mocks;
+package com.jhonn.santt4na_rest.unitetests.mapper.mocks;
 
 import com.jhonn.santt4na_rest.dataDTO.v1.BookDTO;
 import com.jhonn.santt4na_rest.model.Book;
