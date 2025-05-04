@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+// Cors a Nivel de Controller
+//@CrossOrigin(origins = "http://localhost:8080")
 @RestController
 @RequestMapping("/api/person/v1")
 @Tag(name = "People", description = "Endpoints for Managing People")
@@ -30,6 +32,7 @@ public class PersonController implements PersonControllerDocs {
 		return service.findAll();
 	}
 	
+	@CrossOrigin(origins = "http://localhost:8080")
 	@GetMapping(value = "/{id}",
 		produces = {
 			MediaType.APPLICATION_JSON_VALUE,
@@ -43,6 +46,8 @@ public class PersonController implements PersonControllerDocs {
 		return person;
 	}
 	
+	// CORS Para mais de um caminho usamos as ""
+	@CrossOrigin(origins = {"http://localhost:8080", "http://localhost:8080"})
 	@PostMapping(
 		consumes = {
 			MediaType.APPLICATION_JSON_VALUE,
