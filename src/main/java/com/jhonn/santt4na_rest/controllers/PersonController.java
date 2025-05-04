@@ -32,7 +32,7 @@ public class PersonController implements PersonControllerDocs {
 		return service.findAll();
 	}
 	
-	@CrossOrigin(origins = "http://localhost:8080")
+	//@CrossOrigin(origins = "http://localhost:8080")
 	@GetMapping(value = "/{id}",
 		produces = {
 			MediaType.APPLICATION_JSON_VALUE,
@@ -47,7 +47,7 @@ public class PersonController implements PersonControllerDocs {
 	}
 	
 	// CORS Para mais de um caminho usamos as ""
-	@CrossOrigin(origins = {"http://localhost:8080", "http://localhost:8080"})
+	//@CrossOrigin(origins = {"http://localhost:8080", "http://localhost:8080"})
 	@PostMapping(
 		consumes = {
 			MediaType.APPLICATION_JSON_VALUE,
