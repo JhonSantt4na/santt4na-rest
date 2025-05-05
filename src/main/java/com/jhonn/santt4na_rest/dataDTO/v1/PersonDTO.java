@@ -28,6 +28,8 @@ public class PersonDTO extends RepresentationModel<PersonDTO> implements Seriali
 	
 	private String gender;
 	
+	private Boolean enabled;
+	
 	private String sensitiveData;
 	
 	public PersonDTO() {
@@ -97,14 +99,23 @@ public class PersonDTO extends RepresentationModel<PersonDTO> implements Seriali
 		this.sensitiveData = sensitiveData;
 	}
 	
+	public Boolean getEnabled() {
+		return enabled;
+	}
+	
+	public void setEnabled(Boolean enabled) {
+		this.enabled = enabled;
+	}
+	
 	@Override
 	public boolean equals(Object o) {
 		if (!(o instanceof PersonDTO personDTO)) return false;
-		return Objects.equals(getId(), personDTO.getId()) && Objects.equals(getFirstName(), personDTO.getFirstName()) && Objects.equals(getLastName(), personDTO.getLastName()) && Objects.equals(getPhoneNumber(), personDTO.getPhoneNumber()) && Objects.equals(getAddress(), personDTO.getAddress()) && Objects.equals(getBirthDay(), personDTO.getBirthDay()) && Objects.equals(getGender(), personDTO.getGender()) && Objects.equals(getSensitiveData(), personDTO.getSensitiveData());
+		if (!super.equals(o)) return false;
+		return Objects.equals(getId(), personDTO.getId()) && Objects.equals(getFirstName(), personDTO.getFirstName()) && Objects.equals(getLastName(), personDTO.getLastName()) && Objects.equals(getPhoneNumber(), personDTO.getPhoneNumber()) && Objects.equals(getAddress(), personDTO.getAddress()) && Objects.equals(getBirthDay(), personDTO.getBirthDay()) && Objects.equals(getGender(), personDTO.getGender()) && Objects.equals(getEnabled(), personDTO.getEnabled()) && Objects.equals(getSensitiveData(), personDTO.getSensitiveData());
 	}
 	
 	@Override
 	public int hashCode() {
-		return Objects.hash(getId(), getFirstName(), getLastName(), getPhoneNumber(), getAddress(), getBirthDay(), getGender(), getSensitiveData());
+		return Objects.hash(super.hashCode(), getId(), getFirstName(), getLastName(), getPhoneNumber(), getAddress(), getBirthDay(), getGender(), getEnabled(), getSensitiveData());
 	}
 }

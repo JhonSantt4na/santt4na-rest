@@ -2,6 +2,7 @@ package com.jhonn.santt4na_rest.model;
 
 import jakarta.persistence.*;
 
+import javax.swing.text.StyledEditorKit;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -26,15 +27,19 @@ public class Person implements Serializable {
 	@Column(nullable = false, length = 7)
 	private String gender;
 	
+	@Column(nullable = false)
+	private Boolean enabled;
+	
 	public Person() {
 	}
 	
-	public Person(Long id, String firstName, String lastName, String address, String gender) {
+	public Person(Long id, String firstName, String lastName, String address, String gender, Boolean enabled) {
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.address = address;
 		this.gender = gender;
+		this.enabled = enabled;
 	}
 	
 	public Long getId() {
@@ -77,14 +82,22 @@ public class Person implements Serializable {
 		this.gender = gender;
 	}
 	
+	public Boolean getEnabled() {
+		return enabled;
+	}
+	
+	public void setEnabled(Boolean enabled) {
+		this.enabled = enabled;
+	}
+	
 	@Override
 	public boolean equals(Object o) {
 		if (!(o instanceof Person person)) return false;
-		return Objects.equals(getId(), person.getId()) && Objects.equals(getFirstName(), person.getFirstName()) && Objects.equals(getLastName(), person.getLastName()) && Objects.equals(getAddress(), person.getAddress()) && Objects.equals(getGender(), person.getGender());
+		return Objects.equals(getId(), person.getId()) && Objects.equals(getFirstName(), person.getFirstName()) && Objects.equals(getLastName(), person.getLastName()) && Objects.equals(getAddress(), person.getAddress()) && Objects.equals(getGender(), person.getGender()) && Objects.equals(getEnabled(), person.getEnabled());
 	}
 	
 	@Override
 	public int hashCode() {
-		return Objects.hash(getId(), getFirstName(), getLastName(), getAddress(), getGender());
+		return Objects.hash(getId(), getFirstName(), getLastName(), getAddress(), getGender(), getEnabled());
 	}
 }

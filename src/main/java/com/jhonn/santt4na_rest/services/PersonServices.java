@@ -11,6 +11,7 @@ import static com.jhonn.santt4na_rest.mapper.ObjectMapper.parseObject;
 import com.jhonn.santt4na_rest.mapper.custon.PersonMapper;
 import com.jhonn.santt4na_rest.model.Person;
 import com.jhonn.santt4na_rest.repository.PersonRepository;
+import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,7 @@ public class PersonServices {
 	private final Logger logger = LoggerFactory.getLogger(PersonServices.class.getName());
 	@Autowired
 	PersonMapper converter;
+	
 	
 	private final PersonRepository repository;
 	
@@ -87,6 +89,20 @@ public class PersonServices {
 		return dto;
 	}
 	
+	@Transactional
+	public PersonDTO disablePerson(Long id){
+		logger.info("Disabling one Person!");
+		
+		repository.findById(id)
+			.orElseThrow(()-> new ResourceNotFoundException("No Records found for this ID"));
+		repository.disablePerson(id);
+		var entity = repository.findById(id).get();
+		
+		var dto = parseObject(entity, PersonDTO.class);
+		addHateoasLinks(dto);
+		return dto;
+	}
+	
 	public void delete(Long id){
 		logger.info("Deleting one Person!");
 		Person entity = repository.findById(id)
@@ -94,13 +110,13 @@ public class PersonServices {
 		repository.delete(entity);
 	}
 	
-	
 	private static void addHateoasLinks(PersonDTO dto) {
-		dto.add(linkTo(methodOn(PersonController.class).findById(dto.getId())).withSelfRel().withType("GET"));
-		dto.add(linkTo(methodOn(PersonController.class).findAll()).withSelfRel().withType("GET"));
-		dto.add(linkTo(methodOn(PersonController.class).create(dto)).withSelfRel().withType("POST"));
-		dto.add(linkTo(methodOn(PersonController.class).update(dto)).withSelfRel().withType("PUT"));
-		dto.add(linkTo(methodOn(PersonController.class).delete(dto.getId())).withSelfRel().withType("DELETE"));
+		dto.add(linkTo(methodOn(PersonController.class).findById(dto.getId())).withRel("findById").withType("GET"));
+		dto.add(linkTo(methodOn(PersonController.class).findAll()).withRel("findAll").withType("GET"));
+		dto.add(linkTo(methodOn(PersonController.class).create(dto)).withRel("create").withType("POST"));
+		dto.add(linkTo(methodOn(PersonController.class).update(dto)).withRel("update").withType("PUT"));
+		dto.add(linkTo(methodOn(PersonController.class).disablePerson(dto.getId())).withRel("disable").withType("PATCH"));
+		dto.add(linkTo(methodOn(PersonController.class).delete(dto.getId())).withRel("delete").withType("DELETE"));
 	}
 	
 }
