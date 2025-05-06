@@ -1,4 +1,4 @@
-package com.jhonn.santt4na_rest.integrationtests.controller.withJson;
+package com.jhonn.santt4na_rest.integrationtests.controller.cors.withJson;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.jhonn.santt4na_rest.config.TestConfigs;
@@ -21,7 +21,7 @@ import static org.junit.Assert.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class) // Ordenando pois o JUnit roda sem order
-class PersonControllerTest extends AbstractIntegrationTest {
+class PersonControllerCorsTest extends AbstractIntegrationTest {
 	
 	private static RequestSpecification specification;
 	private static ObjectMapper objectMapper;
@@ -80,6 +80,7 @@ class PersonControllerTest extends AbstractIntegrationTest {
 		assertEquals("Jackson", createdPerson.getLastName());
 		assertEquals("Rua B", createdPerson.getAddress());
 		assertEquals("Male", createdPerson.getGender());
+		assertTrue(createdPerson.getEnabled());
 		
 	}
 	
@@ -151,6 +152,7 @@ class PersonControllerTest extends AbstractIntegrationTest {
 		assertEquals("Jackson", createdPerson.getLastName());
 		assertEquals("Rua B", createdPerson.getAddress());
 		assertEquals("Male", createdPerson.getGender());
+		assertTrue(createdPerson.getEnabled());
 	}
 	
 	@Test
@@ -184,5 +186,6 @@ class PersonControllerTest extends AbstractIntegrationTest {
 		person.setLastName("Jackson");
 		person.setAddress("Rua B");
 		person.setGender("Male");
+		person.setEnabled(true);
 	}
 }
