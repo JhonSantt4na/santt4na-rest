@@ -1,9 +1,12 @@
 package com.jhonn.santt4na_rest.integrationtests.dto;
 
+import jakarta.xml.bind.annotation.XmlRootElement;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
+@XmlRootElement
 public class PersonDTO implements Serializable {
 	
 	private static final long serialversionUID = 1L;
