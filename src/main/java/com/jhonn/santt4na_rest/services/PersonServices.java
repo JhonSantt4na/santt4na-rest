@@ -5,7 +5,6 @@ import com.jhonn.santt4na_rest.dataDTO.v1.PersonDTO;
 import com.jhonn.santt4na_rest.dataDTO.v2.PersonDTOV2;
 import com.jhonn.santt4na_rest.exceptions.RequiredObjectIsNullException;
 import com.jhonn.santt4na_rest.exceptions.ResourceNotFoundException;
-import static com.jhonn.santt4na_rest.mapper.ObjectMapper.parseObjects;
 import static com.jhonn.santt4na_rest.mapper.ObjectMapper.parseObject;
 
 import com.jhonn.santt4na_rest.mapper.custon.PersonMapper;
@@ -18,9 +17,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 
 @Service
@@ -37,11 +36,16 @@ public class PersonServices {
 		this.repository = repository;
 	}
 	
-	public List<PersonDTO> findAll(){
+	public Page<PersonDTO> findAll(Pageable pageable){
 		logger.info("Finding all Person!");
-		var persons = parseObjects(repository.findAll(), PersonDTO.class);
-		persons.forEach(PersonServices::addHateoasLinks);
-		return persons;
+		
+		var people = repository.findAll(pageable);
+		
+		return people.map(person -> {
+			var dto = parseObject(person, PersonDTO.class);
+			addHateoasLinks(dto);
+			return dto;
+		});
 	}
 	
 	public PersonDTO findById(Long id){
@@ -52,6 +56,7 @@ public class PersonServices {
 		addHateoasLinks(dto);
 		return dto;
 	}
+	
 	
 	public PersonDTO create(PersonDTO person) {
 		logger.info("Creating one Person!");
@@ -112,7 +117,7 @@ public class PersonServices {
 	
 	private static void addHateoasLinks(PersonDTO dto) {
 		dto.add(linkTo(methodOn(PersonController.class).findById(dto.getId())).withRel("findById").withType("GET"));
-		dto.add(linkTo(methodOn(PersonController.class).findAll()).withRel("findAll").withType("GET"));
+		dto.add(linkTo(methodOn(PersonController.class).findAll(1, 12)).withRel("findAll").withType("GET"));
 		dto.add(linkTo(methodOn(PersonController.class).create(dto)).withRel("create").withType("POST"));
 		dto.add(linkTo(methodOn(PersonController.class).update(dto)).withRel("update").withType("PUT"));
 		dto.add(linkTo(methodOn(PersonController.class).disablePerson(dto.getId())).withRel("disable").withType("PATCH"));
