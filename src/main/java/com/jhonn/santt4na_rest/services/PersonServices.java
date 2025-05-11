@@ -92,6 +92,7 @@ public class PersonServices {
 		var dto = parseObject(repository.save(entity), PersonDTO.class);
 		addHateoasLinks(dto);
 		return dto;
+		
 	}
 	
 	@Transactional
@@ -117,7 +118,7 @@ public class PersonServices {
 	
 	private static void addHateoasLinks(PersonDTO dto) {
 		dto.add(linkTo(methodOn(PersonController.class).findById(dto.getId())).withRel("findById").withType("GET"));
-		dto.add(linkTo(methodOn(PersonController.class).findAll(1, 12)).withRel("findAll").withType("GET"));
+		dto.add(linkTo(methodOn(PersonController.class).findAll(1, 12, "asc")).withRel("findAll").withType("GET"));
 		dto.add(linkTo(methodOn(PersonController.class).create(dto)).withRel("create").withType("POST"));
 		dto.add(linkTo(methodOn(PersonController.class).update(dto)).withRel("update").withType("PUT"));
 		dto.add(linkTo(methodOn(PersonController.class).disablePerson(dto.getId())).withRel("disable").withType("PATCH"));
