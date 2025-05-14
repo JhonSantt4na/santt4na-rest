@@ -3,11 +3,13 @@ package com.jhonn.santt4na_rest.dataDTO.v1;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import org.springframework.hateoas.RepresentationModel;
+import org.springframework.hateoas.server.core.Relation;
 
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
+@Relation(collectionRelation = "people")
 @JacksonXmlRootElement(localName = "Person")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class PersonDTO extends RepresentationModel<PersonDTO> implements Serializable {
