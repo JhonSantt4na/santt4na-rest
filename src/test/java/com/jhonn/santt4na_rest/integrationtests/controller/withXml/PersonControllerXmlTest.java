@@ -6,6 +6,7 @@ import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.jhonn.santt4na_rest.config.TestConfigs;
 import com.jhonn.santt4na_rest.integrationtests.AbstractIntegrationTest;
 import com.jhonn.santt4na_rest.integrationtests.dto.PersonDTO;
+import com.jhonn.santt4na_rest.integrationtests.dto.wrappers.xml.PagedModelPerson;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.filter.log.LogDetail;
 import io.restassured.filter.log.RequestLoggingFilter;
@@ -198,6 +199,7 @@ class PersonControllerXmlTest extends AbstractIntegrationTest {
 		
 		var content = given(specification)
 			.accept(MediaType.APPLICATION_XML_VALUE)
+			.queryParam("page", 3, "size", 12, "direction", "asc")
 			.when()
 			.get()
 			.then()
@@ -206,33 +208,30 @@ class PersonControllerXmlTest extends AbstractIntegrationTest {
 			.extract()
 			.body()
 			.asString();
-		
-		List<PersonDTO> people = objectMapper.readValue(content, new TypeReference<List<PersonDTO>>() {});
+		PagedModelPerson wrapper = objectMapper.readValue(content, PagedModelPerson.class);
+		List<PersonDTO> people = wrapper.getContent();
 		
 		PersonDTO personOne = people.get(0);
-		person = personOne;
 		
 		assertNotNull(personOne.getId());
 		assertTrue(personOne.getId() > 0);
 		
-		assertEquals("Ayrton", personOne.getFirstName());
-		assertEquals("Senna", personOne.getLastName());
-		assertEquals("São Paulo - Brasil", personOne.getAddress());
+		assertEquals("Allin", personOne.getFirstName());
+		assertEquals("Otridge", personOne.getLastName());
+		assertEquals("09846 Independence Center", personOne.getAddress());
 		assertEquals("Male", personOne.getGender());
-		assertTrue(personOne.getEnabled());
-		
+		assertFalse(personOne.getEnabled());
 		
 		PersonDTO personFour = people.get(4);
 		
 		assertNotNull(personFour.getId());
 		assertTrue(personFour.getId() > 0);
 		
-		assertEquals("Mahatma", personFour.getFirstName());
-		assertEquals("Gandhi", personFour.getLastName());
-		assertEquals("Muller - India", personFour.getAddress());
+		assertEquals("Alonso", personFour.getFirstName());
+		assertEquals("Luchelli", personFour.getLastName());
+		assertEquals("9 Doe Crossing Avenue", personFour.getAddress());
 		assertEquals("Male", personFour.getGender());
-		assertTrue(personFour.getEnabled());
-		
+		assertFalse(personFour.getEnabled());
 		
 	}
 	

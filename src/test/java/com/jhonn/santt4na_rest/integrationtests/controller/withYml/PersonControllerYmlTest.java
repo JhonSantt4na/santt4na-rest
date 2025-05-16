@@ -5,6 +5,7 @@ import com.jhonn.santt4na_rest.config.TestConfigs;
 import com.jhonn.santt4na_rest.integrationtests.AbstractIntegrationTest;
 import com.jhonn.santt4na_rest.integrationtests.controller.withYml.mapper.YAMLMapper;
 import com.jhonn.santt4na_rest.integrationtests.dto.PersonDTO;
+import com.jhonn.santt4na_rest.integrationtests.dto.wrappers.xml.PagedModelPerson;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.config.EncoderConfig;
 import io.restassured.config.RestAssuredConfig;
@@ -204,11 +205,12 @@ class PersonControllerYmlTest extends AbstractIntegrationTest {
 	@Order(6)
 	void findAllTest() throws JsonProcessingException {
 		
-		var reponse = given().config(
+		var response = given().config(
 				RestAssuredConfig.config()
 					.encoderConfig(EncoderConfig.encoderConfig().encodeContentTypeAs(MediaType.APPLICATION_YAML_VALUE, ContentType.TEXT)))
 			.spec(specification)
 			.accept(MediaType.APPLICATION_YAML_VALUE)
+			.queryParam("page", 3, "size", 12, "direction", "asc")
 			.when()
 			.get()
 			.then()
@@ -216,34 +218,31 @@ class PersonControllerYmlTest extends AbstractIntegrationTest {
 			.contentType(MediaType.APPLICATION_YAML_VALUE)
 			.extract()
 			.body()
-			.as(PersonDTO[].class, objectMapper);
+			.as(PagedModelPerson.class, objectMapper);
 		
-		List<PersonDTO> people = Arrays.asList(reponse);
+		List<PersonDTO> people = response.getContent();
 		
 		PersonDTO personOne = people.get(0);
-		person = personOne;
 		
 		assertNotNull(personOne.getId());
 		assertTrue(personOne.getId() > 0);
 		
-		assertEquals("Ayrton", personOne.getFirstName());
-		assertEquals("Senna", personOne.getLastName());
-		assertEquals("São Paulo - Brasil", personOne.getAddress());
+		assertEquals("Allin", personOne.getFirstName());
+		assertEquals("Otridge", personOne.getLastName());
+		assertEquals("09846 Independence Center", personOne.getAddress());
 		assertEquals("Male", personOne.getGender());
-		assertTrue(personOne.getEnabled());
-		
+		assertFalse(personOne.getEnabled());
 		
 		PersonDTO personFour = people.get(4);
 		
 		assertNotNull(personFour.getId());
 		assertTrue(personFour.getId() > 0);
 		
-		assertEquals("Mahatma", personFour.getFirstName());
-		assertEquals("Gandhi", personFour.getLastName());
-		assertEquals("Muller - India", personFour.getAddress());
+		assertEquals("Alonso", personFour.getFirstName());
+		assertEquals("Luchelli", personFour.getLastName());
+		assertEquals("9 Doe Crossing Avenue", personFour.getAddress());
 		assertEquals("Male", personFour.getGender());
-		assertTrue(personFour.getEnabled());
-		
+		assertFalse(personFour.getEnabled());
 		
 	}
 	
