@@ -2,29 +2,28 @@ package com.jhonn.santt4na_rest.integrationtests.dto.wrappers.xml;
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
-import com.jhonn.santt4na_rest.integrationtests.dto.PersonDTO;
-import jakarta.xml.bind.annotation.XmlRootElement;
+import com.jhonn.santt4na_rest.integrationtests.dto.BookDTO;
 
 import java.io.Serializable;
 import java.util.List;
 
-@XmlRootElement
-public class PagedModelPerson implements Serializable {
+public class PagedModelBook implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
+	
 	@JacksonXmlElementWrapper(useWrapping = false)
 	@JacksonXmlProperty(localName = "content")
-	public List<PersonDTO> content;
+	public List<BookDTO> content;
 	
-	public PagedModelPerson() {
+	public PagedModelBook() {
 	}
 	
-	public List<PersonDTO> getContent() {
+	public List<BookDTO> getContent() {
 		return content;
 	}
 	
-	public void setContent(List<PersonDTO> content) {
+	public void setContent(List<BookDTO> content) {
 		this.content = content;
 	}
 }
