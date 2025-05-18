@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jhonn.santt4na_rest.config.TestConfigs;
 import com.jhonn.santt4na_rest.integrationtests.AbstractIntegrationTest;
 import com.jhonn.santt4na_rest.integrationtests.dto.BookDTO;
+import com.jhonn.santt4na_rest.integrationtests.dto.wrappers.json.WrapperBookDTO;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.filter.log.LogDetail;
 import io.restassured.filter.log.RequestLoggingFilter;
@@ -18,6 +19,7 @@ import org.springframework.http.MediaType;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import static io.restassured.RestAssured.given;
 import static org.junit.Assert.*;
@@ -60,6 +62,8 @@ public class BookControllerJsonTest extends AbstractIntegrationTest {
 		book.setTitle("title_2d30330c88a7");
 	}
 	
+	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	Date expectedDate = sdf.parse("2025-05-17 17:09:40");
 	
 	@Test
 	@Order(1)
@@ -80,9 +84,6 @@ public class BookControllerJsonTest extends AbstractIntegrationTest {
 		
 		BookDTO createdBook = objectMapper.readValue(content, BookDTO.class);
 		book = createdBook;
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		Date expectedDate = sdf.parse("2025-05-17 17:09:40");
-		
 		
 		assertNotNull(createdBook.getId());
 		assertTrue(createdBook.getId() > 0);
@@ -92,30 +93,16 @@ public class BookControllerJsonTest extends AbstractIntegrationTest {
 		assertEquals(expectedDate, createdBook.getLaunchDate());
 		assertEquals(Double.valueOf(0.00), createdBook.getPrice());
 		
-		
 	}
-}
-
-/*
-class PersonControllerJsonTest  {
-	
-	private static RequestSpecification specification;
-	private static ObjectMapper objectMapper;
-	
-	private static PersonDTO person;
-	
-	
-	
-	
 	
 	@Test
 	@Order(2)
 	void updateTest() throws JsonProcessingException {
-		person.setLastName("Benedict Torvalds");
+		book.setAuthor("Benedict Torvalds");
 		
 		var content = given(specification)
 			.contentType(MediaType.APPLICATION_JSON_VALUE)
-			.body(person)
+			.body(book)
 			.when()
 			.put()
 			.then()
@@ -125,27 +112,25 @@ class PersonControllerJsonTest  {
 			.body()
 			.asString();
 		
-		PersonDTO createdPerson = objectMapper.readValue(content, PersonDTO.class);
-		person = createdPerson;
+		BookDTO createdBook = objectMapper.readValue(content, BookDTO.class);
+		book = createdBook;
 		
-		assertNotNull(createdPerson.getId());
-		assertTrue(createdPerson.getId() > 0);
+		assertNotNull(createdBook.getId());
+		assertTrue(createdBook.getId() > 0);
 		
-		assertEquals("Linux", createdPerson.getFirstName());
-		assertEquals("Benedict Torvalds", createdPerson.getLastName());
-		assertEquals("Rua C", createdPerson.getAddress());
-		assertEquals("Male", createdPerson.getGender());
-		assertTrue(createdPerson.getEnabled());
-		
+		assertEquals("Benedict Torvalds", createdBook.getAuthor());
+		assertEquals("title_2d30330c88a7", createdBook.getTitle());
+		assertEquals(expectedDate, createdBook.getLaunchDate());
+		assertEquals(Double.valueOf(0.00), createdBook.getPrice());
 	}
 	
 	@Test
 	@Order(3)
-	void findByIdTest() throws JsonProcessingException {
+	void findByIdTest() throws JsonProcessingException, ParseException {
 		
 		var content = given(specification)
 			.contentType(MediaType.APPLICATION_JSON_VALUE)
-			.pathParam("id", person.getId())
+			.pathParam("id", book.getId())
 			.when()
 			.get("{id}")
 			.then()
@@ -155,75 +140,40 @@ class PersonControllerJsonTest  {
 			.body()
 			.asString();
 		
-		PersonDTO createdPerson = objectMapper.readValue(content, PersonDTO.class);
-		person = createdPerson;
+		BookDTO createdBook = objectMapper.readValue(content, BookDTO.class);
+		book = createdBook;
 		
-		assertNotNull(createdPerson.getId());
-		assertTrue(createdPerson.getId() > 0);
+		book.setLaunchDate(expectedDate);
 		
-		assertEquals("Linux", createdPerson.getFirstName());
-		assertEquals("Benedict Torvalds", createdPerson.getLastName());
-		assertEquals("Rua C", createdPerson.getAddress());
-		assertEquals("Male", createdPerson.getGender());
-		assertTrue(createdPerson.getEnabled());
+		
+		assertNotNull(createdBook.getId());
+		assertTrue(createdBook.getId() > 0);
+		
+		assertEquals("Benedict Torvalds", createdBook.getAuthor());
+		assertEquals("title_2d30330c88a7", createdBook.getTitle());
+		assertEquals(expectedDate, createdBook.getLaunchDate());
+		assertEquals(Double.valueOf(0.00), createdBook.getPrice());
 	}
 	
 	@Test
 	@Order(4)
-	void disableTest() throws JsonProcessingException {
-		
-		var content = given(specification)
-			.contentType(MediaType.APPLICATION_JSON_VALUE)
-			.pathParam("id", person.getId())
-			.when()
-			.patch("{id}")
-			.then()
-			.statusCode(200)
-			.contentType(MediaType.APPLICATION_JSON_VALUE)
-			.extract()
-			.body()
-			.asString();
-		
-		PersonDTO createdPerson = objectMapper.readValue(content, PersonDTO.class);
-		person = createdPerson;
-		
-		assertNotNull(createdPerson.getId());
-		assertTrue(createdPerson.getId() > 0);
-		
-		assertEquals("Linux", createdPerson.getFirstName());
-		assertEquals("Benedict Torvalds", createdPerson.getLastName());
-		assertEquals("Rua C", createdPerson.getAddress());
-		assertEquals("Male", createdPerson.getGender());
-		assertFalse(createdPerson.getEnabled());
-	}
-	
-	@Test
-	@Order(5)
 	void deleteTest() throws JsonProcessingException {
 		
 		given(specification)
-			.pathParam("id", person.getId())
+			.pathParam("id", book.getId())
 			.when()
 			.delete("{id}")
 			.then()
 			.statusCode(204);
 	}
 	
-	private void mockPerson() {
-		person.setFirstName("Linux");
-		person.setLastName("Stallman");
-		person.setAddress("Rua C");
-		person.setGender("Male");
-		person.setEnabled(true);
-	}
-	
 	@Test
-	@Order(6)
+	@Order(5)
 	void findAllTest() throws JsonProcessingException {
 		
 		var content = given(specification)
 			.accept(MediaType.APPLICATION_JSON_VALUE)
-			.queryParam("page", 3, "size", 12, "direction", "asc")
+			.queryParam("page", 0, "size", 4, "direction", "asc")
 			.when()
 			.get()
 			.then()
@@ -233,32 +183,27 @@ class PersonControllerJsonTest  {
 			.body()
 			.asString();
 		
-		WrapperPersonDTO wrapper = objectMapper.readValue(content, WrapperPersonDTO.class);
-		List<PersonDTO> people = wrapper.getEmbedded().getPeople();
+		WrapperBookDTO wrapper = objectMapper.readValue(content, WrapperBookDTO.class);
+		List<BookDTO> books = wrapper.getEmbedded().getBook();
 		
-		PersonDTO personOne = people.get(0);
+		BookDTO bookOne = books.get(0);
 		
-		assertNotNull(personOne.getId());
-		assertTrue(personOne.getId() > 0);
+		assertNotNull(bookOne.getId());
+		assertTrue(bookOne.getId() > 0);
 		
-		assertEquals("Allin", personOne.getFirstName());
-		assertEquals("Otridge", personOne.getLastName());
-		assertEquals("09846 Independence Center", personOne.getAddress());
-		assertEquals("Male", personOne.getGender());
-		assertFalse(personOne.getEnabled());
+		assertEquals("Viktor Mayer-Schonberger e Kenneth Kukier", bookOne.getAuthor());
+		assertEquals("Big Data: como extrair volume, variedade, velocidade e valor da avalanche de informação cotidiana", bookOne.getTitle());
+		assertEquals(1510023600000L, bookOne.getLaunchDate().getTime());
+		assertEquals(Double.valueOf(54.0), bookOne.getPrice());
 		
-		PersonDTO personFour = people.get(4);
+		BookDTO bookTwo = books.get(1);
 		
-		assertNotNull(personFour.getId());
-		assertTrue(personFour.getId() > 0);
-		
-		assertEquals("Alonso", personFour.getFirstName());
-		assertEquals("Luchelli", personFour.getLastName());
-		assertEquals("9 Doe Crossing Avenue", personFour.getAddress());
-		assertEquals("Male", personFour.getGender());
-		assertFalse(personFour.getEnabled());
-		
+		assertNotNull(bookTwo.getId());
+		assertTrue(bookTwo.getId() > 0);
+		assertEquals("Robert C. Martin", bookTwo.getAuthor());
+		assertEquals("Clean Code", bookTwo.getTitle());
+		assertEquals(1231556400000L, bookTwo.getLaunchDate().getTime());
+		assertEquals(Double.valueOf(77.0), bookTwo.getPrice());
 	}
 	
 }
-*/
