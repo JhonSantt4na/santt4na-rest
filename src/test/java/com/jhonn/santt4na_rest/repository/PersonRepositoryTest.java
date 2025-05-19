@@ -2,7 +2,6 @@ package com.jhonn.santt4na_rest.repository;
 
 import com.jhonn.santt4na_rest.integrationtests.AbstractIntegrationTest;
 import com.jhonn.santt4na_rest.model.Person;
-import org.junit.Assert;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
