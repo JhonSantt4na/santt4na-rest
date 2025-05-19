@@ -8,6 +8,8 @@ import java.util.List;
 
 public class MockBook {
 	
+	private static final long ONE_DAY_IN_MILLIS = 86_400_000L; // 24h em milissegundos
+	
 	public Book mockEntity() {
 		return mockEntity(0);
 	}
@@ -17,7 +19,7 @@ public class MockBook {
 	}
 	
 	public List<Book> mockEntityList() {
-		List<Book> books = new ArrayList<Book>();
+		List<Book> books = new ArrayList<>();
 		for (int i = 0; i < 14; i++) {
 			books.add(mockEntity(i));
 		}
@@ -35,21 +37,20 @@ public class MockBook {
 	public Book mockEntity(Integer number) {
 		Book book = new Book();
 		book.setId(number.longValue());
-		book.setAuthor("Some Author" + number);
-		book.setLaunchDate(new Date());
+		book.setAuthor("Author Test" + number);
+		book.setLaunchDate(new Date(number * ONE_DAY_IN_MILLIS));
 		book.setPrice(25D);
-		book.setTitle("Some Title" + number);
+		book.setTitle("Title Test" + number);
 		return book;
 	}
 	
 	public BookDTO mockDTO(Integer number) {
 		BookDTO book = new BookDTO();
 		book.setId(number.longValue());
-		book.setAuthor("Some Author" + number);
-		book.setLaunchDate(new Date());
+		book.setAuthor("Author Test" + number);
+		book.setLaunchDate(new Date(number * ONE_DAY_IN_MILLIS));
 		book.setPrice(25D);
-		book.setTitle("Some Title" + number);
+		book.setTitle("Title Test" + number);
 		return book;
 	}
-	
 }

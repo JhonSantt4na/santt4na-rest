@@ -1,11 +1,16 @@
 package com.jhonn.santt4na_rest.integrationtests.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlRootElement;
 
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
+@XmlRootElement(name = "book") // nome do elemento raiz no XML
+@XmlAccessorType(XmlAccessType.FIELD)
 public class BookDTO implements Serializable {
 	
 	private static final long serialVersionUID = 1L;

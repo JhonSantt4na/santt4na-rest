@@ -25,10 +25,10 @@ public class ObjectMapperBookTests {
 	@Test
 	public void parseEntityToDTOTest() {
 		BookDTO output = parseObject(inputObject.mockEntity(), BookDTO.class);
-		assertEquals(Long.valueOf(0L), output.getId());
+		assertEquals(0L, output.getId());
 		assertEquals("Author Test0", output.getAuthor());
-		assertEquals(new Date(0), output.getLaunchDate());
-		assertEquals(50.0, output.getPrice());
+		assertEquals(new Date(0L), output.getLaunchDate());
+		assertEquals(25.0, output.getPrice());
 		assertEquals("Title Test0", output.getTitle());
 	}
 	
@@ -37,27 +37,27 @@ public class ObjectMapperBookTests {
 		List<BookDTO> outputList = parseObjects(inputObject.mockEntityList(), BookDTO.class);
 		
 		BookDTO outputZero = outputList.get(0);
-		assertEquals(Long.valueOf(0L), outputZero.getId());
+		assertEquals(0L, outputZero.getId());
 		assertEquals("Author Test0", outputZero.getAuthor());
-		assertEquals(new Date(0), outputZero.getLaunchDate());
-		assertEquals(50.0, outputZero.getPrice());
+		assertEquals(new Date(0L), outputZero.getLaunchDate());
+		assertEquals(25.0, outputZero.getPrice());
 		assertEquals("Title Test0", outputZero.getTitle());
 		
 		BookDTO outputSeven = outputList.get(7);
-		assertEquals(Long.valueOf(7L), outputSeven.getId());
+		assertEquals(7L, outputSeven.getId());
 		assertEquals("Author Test7", outputSeven.getAuthor());
 		assertEquals(new Date(7 * 86400000L), outputSeven.getLaunchDate());
-		assertEquals(57.0, outputSeven.getPrice());
+		assertEquals(25.0, outputSeven.getPrice());
 		assertEquals("Title Test7", outputSeven.getTitle());
 	}
 	
 	@Test
 	public void parseDTOToEntityTest() {
 		Book output = parseObject(inputObject.mockDTO(), Book.class);
-		assertEquals(Long.valueOf(0L), output.getId());
+		assertEquals(0L, output.getId());
 		assertEquals("Author Test0", output.getAuthor());
-		assertEquals(new Date(0), output.getLaunchDate());
-		assertEquals(50.0, output.getPrice());
+		assertEquals(new Date(0L), output.getLaunchDate());
+		assertEquals(25.0, output.getPrice());
 		assertEquals("Title Test0", output.getTitle());
 	}
 	
@@ -66,17 +66,17 @@ public class ObjectMapperBookTests {
 		List<Book> outputList = parseObjects(inputObject.mockDTOList(), Book.class);
 		
 		Book outputZero = outputList.get(0);
-		assertEquals(Long.valueOf(0L), outputZero.getId());
+		assertEquals(0L, outputZero.getId());
 		assertEquals("Author Test0", outputZero.getAuthor());
-		assertEquals(new Date(0), outputZero.getLaunchDate());
-		assertEquals(50.0, outputZero.getPrice());
+		assertEquals(new Date(0L), outputZero.getLaunchDate());
+		assertEquals(25.0, outputZero.getPrice());
 		assertEquals("Title Test0", outputZero.getTitle());
 		
 		Book outputSeven = outputList.get(7);
-		assertEquals(Long.valueOf(7L), outputSeven.getId());
+		assertEquals(7L, outputSeven.getId());
 		assertEquals("Author Test7", outputSeven.getAuthor());
 		assertEquals(new Date(7 * 86400000L), outputSeven.getLaunchDate());
-		assertEquals(57.0, outputSeven.getPrice());
+		assertEquals(25.0, outputSeven.getPrice());
 		assertEquals("Title Test7", outputSeven.getTitle());
 	}
 }

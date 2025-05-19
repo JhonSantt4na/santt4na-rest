@@ -85,9 +85,9 @@ public class BookServicesTest {
 			)
 		);
 		
-		assertEquals("Some Author1", result.getAuthor());
+		assertEquals("Author Test1", result.getAuthor());
 		assertEquals(25D, result.getPrice());
-		assertEquals("Some Title1", result.getTitle());
+		assertEquals("Title Test1", result.getTitle());
 		assertNotNull(result.getLaunchDate());
 	}
 	
@@ -141,9 +141,9 @@ public class BookServicesTest {
 			)
 		);
 		
-		assertEquals("Some Author1", result.getAuthor());
+		assertEquals("Author Test1", result.getAuthor());
 		assertEquals(25D, result.getPrice());
-		assertEquals("Some Title1", result.getTitle());
+		assertEquals("Title Test1", result.getTitle());
 		assertNotNull(result.getLaunchDate());
 	}
 	
@@ -211,9 +211,9 @@ public class BookServicesTest {
 			)
 		);
 		
-		assertEquals("Some Author1", result.getAuthor());
+		assertEquals("Author Test1", result.getAuthor());
 		assertEquals(25D, result.getPrice());
-		assertEquals("Some Title1", result.getTitle());
+		assertEquals("Title Test1", result.getTitle());
 		assertNotNull(result.getLaunchDate());
 	}
 	
@@ -292,9 +292,9 @@ public class BookServicesTest {
 			)
 		);
 		
-		assertEquals("Some Author1", bookOne.getAuthor());
+		assertEquals("Author Test1", bookOne.getAuthor());
 		assertEquals(25D, bookOne.getPrice());
-		assertEquals("Some Title1", bookOne.getTitle());
+		assertEquals("Title Test1", bookOne.getTitle());
 		assertNotNull(bookOne.getLaunchDate());
 		
 		var bookFour = books.get(4);
@@ -337,9 +337,9 @@ public class BookServicesTest {
 			)
 		);
 		
-		assertEquals("Some Author4", bookFour.getAuthor());
+		assertEquals("Author Test4", bookFour.getAuthor());
 		assertEquals(25D, bookFour.getPrice());
-		assertEquals("Some Title4", bookFour.getTitle());
+		assertEquals("Title Test4", bookFour.getTitle());
 		assertNotNull(bookFour.getLaunchDate());
 		
 		var bookSeven = books.get(7);
@@ -382,9 +382,9 @@ public class BookServicesTest {
 			)
 		);
 		
-		assertEquals("Some Author7", bookSeven.getAuthor());
+		assertEquals("Author Test7", bookSeven.getAuthor());
 		assertEquals(25D, bookSeven.getPrice());
-		assertEquals("Some Title7", bookSeven.getTitle());
+		assertEquals("Title Test7", bookSeven.getTitle());
 		assertNotNull(bookFour.getLaunchDate());
 	}
 }
