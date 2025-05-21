@@ -17,21 +17,13 @@ public class PersonDTO extends RepresentationModel<PersonDTO> implements Seriali
 	private static final long serialversionUID = 1L;
 	
 	private Long id;
-	
 	private String firstName;
-	
 	private String lastName;
-	
 	private String phoneNumber;
-	
 	private String address;
-	
 	private Date birthDay;
-	
 	private String gender;
-	
 	private Boolean enabled;
-	
 	private String sensitiveData;
 	
 	public PersonDTO() {
