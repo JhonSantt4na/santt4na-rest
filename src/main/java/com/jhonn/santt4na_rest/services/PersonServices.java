@@ -3,10 +3,14 @@ package com.jhonn.santt4na_rest.services;
 import com.jhonn.santt4na_rest.controllers.PersonController;
 import com.jhonn.santt4na_rest.dataDTO.v1.PersonDTO;
 import com.jhonn.santt4na_rest.dataDTO.v2.PersonDTOV2;
+import com.jhonn.santt4na_rest.exceptions.BadRequestException;
+import com.jhonn.santt4na_rest.exceptions.FileStorageException;
 import com.jhonn.santt4na_rest.exceptions.RequiredObjectIsNullException;
 import com.jhonn.santt4na_rest.exceptions.ResourceNotFoundException;
 import static com.jhonn.santt4na_rest.mapper.ObjectMapper.parseObject;
 
+import com.jhonn.santt4na_rest.file.importer.contract.FileImporter;
+import com.jhonn.santt4na_rest.file.importer.factory.FileImporterFactory;
 import com.jhonn.santt4na_rest.mapper.custon.PersonMapper;
 import com.jhonn.santt4na_rest.model.Person;
 import com.jhonn.santt4na_rest.repository.PersonRepository;
@@ -25,6 +29,11 @@ import org.springframework.hateoas.Link;
 import org.springframework.hateoas.PagedModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.InputStream;
+import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -36,6 +45,9 @@ public class PersonServices {
 	
 	
 	private final PersonRepository repository;
+	
+	@Autowired
+	FileImporterFactory importer;
 	
 	public PersonServices(PersonRepository repository) {
 		this.repository = repository;
@@ -82,6 +94,37 @@ public class PersonServices {
 		logger.info("Creating one Person V2!");
 		var entity = converter.convertDTOToEntity(person);
 		return converter.convertEntityToDTO(repository.save(entity));
+	}
+	
+	public List<PersonDTO> massCreation(MultipartFile file) {
+		logger.info("Importing People from file!");
+		
+		if (file.isEmpty()){
+			throw new BadRequestException(" Please set a valid file");
+		}
+		
+		try(InputStream inputStream = file.getInputStream()) {
+			
+			String fileName = Optional.ofNullable(file.getOriginalFilename())
+				.orElseThrow(()->new BadRequestException("Filename be cannot null"));
+			
+			FileImporter importer = this.importer.getImporter(fileName);
+			
+			List<Person> entities = importer.importFile(inputStream)
+				.stream()
+				.map(dto -> repository.save(parseObject(dto, Person.class)))
+				.toList();
+			
+			return entities.stream()
+				.map(entity -> {
+				var dto = parseObject(entity, PersonDTO.class);
+				addHateoasLinks(dto);
+				return dto;
+			}).toList();
+			
+		} catch (Exception e) {
+			throw new FileStorageException("Error processing the file!");
+		}
 	}
 	
 	public PersonDTO update(PersonDTO person) {
@@ -145,6 +188,7 @@ public class PersonServices {
 		dto.add(linkTo(methodOn(PersonController.class).findAll(1, 12, "asc")).withRel("findAll").withType("GET"));
 		dto.add(linkTo(methodOn(PersonController.class).findByName("", 1, 12, "asc")).withRel("findByName").withType("GET"));
 		dto.add(linkTo(methodOn(PersonController.class).create(dto)).withRel("create").withType("POST"));
+		dto.add(linkTo(methodOn(PersonController.class)).slash("massCreation").withRel("massCreation").withType("POST"));
 		dto.add(linkTo(methodOn(PersonController.class).update(dto)).withRel("update").withType("PUT"));
 		dto.add(linkTo(methodOn(PersonController.class).disablePerson(dto.getId())).withRel("disable").withType("PATCH"));
 		dto.add(linkTo(methodOn(PersonController.class).delete(dto.getId())).withRel("delete").withType("DELETE"));
