@@ -3,7 +3,6 @@ package com.jhonn.santt4na_rest.services;
 
 import com.jhonn.santt4na_rest.controllers.BookController;
 import com.jhonn.santt4na_rest.dataDTO.v1.BookDTO;
-import com.jhonn.santt4na_rest.dataDTO.v1.PersonDTO;
 import com.jhonn.santt4na_rest.exceptions.RequiredObjectIsNullException;
 import com.jhonn.santt4na_rest.exceptions.ResourceNotFoundException;
 
@@ -17,13 +16,10 @@ import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.PagedModel;
-import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 
 import static com.jhonn.santt4na_rest.mapper.ObjectMapper.parseObject;
-import static com.jhonn.santt4na_rest.mapper.ObjectMapper.parseObjects;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 

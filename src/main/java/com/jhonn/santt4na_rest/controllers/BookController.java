@@ -14,7 +14,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/book/v1")
@@ -26,6 +25,7 @@ public class BookController implements BookControllerDocs {
 	
 	@GetMapping(produces = {
 		MediaType.APPLICATION_JSON_VALUE,
+		
 		MediaType.APPLICATION_XML_VALUE,
 		MediaType.APPLICATION_YAML_VALUE
 	})
@@ -77,6 +77,7 @@ public class BookController implements BookControllerDocs {
 		produces = {
 			MediaType.APPLICATION_JSON_VALUE,
 			MediaType.APPLICATION_XML_VALUE,
+			
 			MediaType.APPLICATION_YAML_VALUE
 		}
 	)
