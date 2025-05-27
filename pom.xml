@@ -22,6 +22,7 @@
 		<testcontainer.version>1.21.0</testcontainer.version>
 		<apache.poi.version>5.2.3</apache.poi.version>
 		<commons-csv.version>1.10.0</commons-csv.version>
+		<jasperreports.version>7.0.1</jasperreports.version>
 	</properties>
 
 	<dependencies>
@@ -109,6 +110,24 @@
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi-ooxml</artifactId>
 			<version>${apache.poi.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>jasperreports</artifactId>
+			<version>${jasperreports.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>jasperreports-fonts</artifactId>
+			<version>${jasperreports.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>jasperreports-pdf</artifactId>
+			<version>${jasperreports.version}</version>
 		</dependency>
 
 		<dependency>
