@@ -28,6 +28,7 @@ spring:
 logging:
   level:
     #root: INFO
+    net.sf.jasperreports.engine.*: TRACE
     com.jhonn.santt4na_rest: DEBUG
 
 spring-doc:

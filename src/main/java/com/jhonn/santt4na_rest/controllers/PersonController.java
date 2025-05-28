@@ -114,6 +114,21 @@ public class PersonController implements PersonControllerDocs {
 		return person;
 	}
 	
+	
+	@GetMapping(value = "/export/{id}",
+		produces = MediaType.APPLICATION_PDF_VALUE)
+	@Override
+	public ResponseEntity<Resource> export(@PathVariable("id") Long id, HttpServletRequest request) {
+		
+		String acceptHeader = request.getHeader(HttpHeaders.ACCEPT);
+		Resource file = service.exportPerson(id, acceptHeader);
+		
+		return ResponseEntity.ok()
+			.contentType(MediaType.parseMediaType(acceptHeader))
+			.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=person.pdf")
+			.body(file);
+	}
+	
 	// CORS Para mais de um caminho usamos as ""
 	//@CrossOrigin(origins = {"http://localhost:8080", "http://localhost:8080"})
 	@PostMapping(

@@ -23,6 +23,7 @@
 		<apache.poi.version>5.2.3</apache.poi.version>
 		<commons-csv.version>1.10.0</commons-csv.version>
 		<jasperreports.version>7.0.1</jasperreports.version>
+		<zxing.version>3.5.3</zxing.version>
 	</properties>
 
 	<dependencies>
@@ -139,6 +140,18 @@
 		<dependency>
 			<groupId>org.flywaydb</groupId>
 			<artifactId>flyway-mysql</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.google.zxing</groupId>
+			<artifactId>javase</artifactId>
+			<version>${zxing.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.google.zxing</groupId>
+			<artifactId>core</artifactId>
+			<version>${zxing.version}</version>
 		</dependency>
 
 	</dependencies>
