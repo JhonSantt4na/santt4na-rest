@@ -110,13 +110,14 @@ public class PersonController implements PersonControllerDocs {
 	@Override
 	public PersonDTO findById(@PathVariable("id") Long id) {
 		var person = service.findById(id);
-		person.setSensitiveData("Foo Bar");
 		return person;
 	}
 	
 	
 	@GetMapping(value = "/export/{id}",
-		produces = MediaType.APPLICATION_PDF_VALUE)
+		produces = {
+			MediaType.APPLICATION_PDF_VALUE}
+	)
 	@Override
 	public ResponseEntity<Resource> export(@PathVariable("id") Long id, HttpServletRequest request) {
 		
@@ -125,7 +126,9 @@ public class PersonController implements PersonControllerDocs {
 		
 		return ResponseEntity.ok()
 			.contentType(MediaType.parseMediaType(acceptHeader))
-			.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=person.pdf")
+			.header(
+				HttpHeaders.CONTENT_DISPOSITION,
+				"attachment; filename=person.pdf")
 			.body(file);
 	}
 	

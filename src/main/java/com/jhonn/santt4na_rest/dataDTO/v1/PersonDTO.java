@@ -13,28 +13,24 @@ import java.util.List;
 import java.util.Objects;
 
 @Relation(collectionRelation = "people")
-@JacksonXmlRootElement(localName = "Person")
-@JsonInclude(JsonInclude.Include.NON_NULL)
 public class PersonDTO extends RepresentationModel<PersonDTO> implements Serializable {
 	
-	private static final long serialversionUID = 1L;
+	private static final long serialVersionUID = 1L;
 	
 	private Long id;
 	private String firstName;
 	private String lastName;
-	private String phoneNumber;
 	private String address;
-	private Date birthDay;
 	private String gender;
 	private Boolean enabled;
-	private String sensitiveData;
+	
 	private String profileUrl;
 	private String photoUrl;
+	
 	@JsonIgnore
 	private List<Book> books;
 	
-	public PersonDTO() {
-	}
+	public PersonDTO() {}
 	
 	public Long getId() {
 		return id;
@@ -76,36 +72,18 @@ public class PersonDTO extends RepresentationModel<PersonDTO> implements Seriali
 		this.gender = gender;
 	}
 	
-	public Date getBirthDay() {
-		return birthDay;
-	}
-	
-	public void setBirthDay(Date birthDay) {
-		this.birthDay = birthDay;
-	}
-	
-	public String getPhoneNumber() {
-		return phoneNumber;
-	}
-	
-	public void setPhoneNumber(String phoneNumber) {
-		this.phoneNumber = phoneNumber;
-	}
-	
-	public String getSensitiveData() {
-		return sensitiveData;
-	}
-	
-	public void setSensitiveData(String sensitiveData) {
-		this.sensitiveData = sensitiveData;
-	}
-	
 	public Boolean getEnabled() {
 		return enabled;
 	}
 	
 	public void setEnabled(Boolean enabled) {
 		this.enabled = enabled;
+	}
+	
+	@JsonIgnore
+	public String getName(){
+		return (firstName != null ? firstName : "") +
+			(lastName != null ? " " + lastName : "");
 	}
 	
 	public String getProfileUrl() {
@@ -132,22 +110,16 @@ public class PersonDTO extends RepresentationModel<PersonDTO> implements Seriali
 		this.books = books;
 	}
 	
-	@JsonIgnore
-	public String getName(){
-		return (firstName != null ? firstName : "") +
-			(lastName != null ? firstName : "") ;
-	}
-	
 	@Override
 	public boolean equals(Object o) {
 		if (o == null || getClass() != o.getClass()) return false;
 		if (!super.equals(o)) return false;
 		PersonDTO personDTO = (PersonDTO) o;
-		return Objects.equals(id, personDTO.id) && Objects.equals(firstName, personDTO.firstName) && Objects.equals(lastName, personDTO.lastName) && Objects.equals(phoneNumber, personDTO.phoneNumber) && Objects.equals(address, personDTO.address) && Objects.equals(birthDay, personDTO.birthDay) && Objects.equals(gender, personDTO.gender) && Objects.equals(enabled, personDTO.enabled) && Objects.equals(sensitiveData, personDTO.sensitiveData) && Objects.equals(profileUrl, personDTO.profileUrl) && Objects.equals(photoUrl, personDTO.photoUrl) && Objects.equals(books, personDTO.books);
+		return Objects.equals(getId(), personDTO.getId()) && Objects.equals(getFirstName(), personDTO.getFirstName()) && Objects.equals(getLastName(), personDTO.getLastName()) && Objects.equals(getAddress(), personDTO.getAddress()) && Objects.equals(getGender(), personDTO.getGender()) && Objects.equals(getEnabled(), personDTO.getEnabled()) && Objects.equals(getProfileUrl(), personDTO.getProfileUrl()) && Objects.equals(getPhotoUrl(), personDTO.getPhotoUrl()) && Objects.equals(getBooks(), personDTO.getBooks());
 	}
 	
 	@Override
 	public int hashCode() {
-		return Objects.hash(super.hashCode(), id, firstName, lastName, phoneNumber, address, birthDay, gender, enabled, sensitiveData, profileUrl, photoUrl, books);
+		return Objects.hash(super.hashCode(), getId(), getFirstName(), getLastName(), getAddress(), getGender(), getEnabled(), getProfileUrl(), getPhotoUrl(), getBooks());
 	}
 }

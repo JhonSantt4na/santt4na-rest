@@ -2,7 +2,7 @@ package com.jhonn.santt4na_rest.file.exporter.factory;
 
 import com.jhonn.santt4na_rest.exceptions.BadRequestException;
 import com.jhonn.santt4na_rest.file.exporter.MediaTypes;
-import com.jhonn.santt4na_rest.file.exporter.contract.FileExporter;
+import com.jhonn.santt4na_rest.file.exporter.contract.PersonExporter;
 import com.jhonn.santt4na_rest.file.exporter.impl.CsvExporter;
 import com.jhonn.santt4na_rest.file.exporter.impl.PdfExporter;
 import com.jhonn.santt4na_rest.file.exporter.impl.XlsxExporter;
@@ -19,7 +19,7 @@ public class FileExporterFactory {
 	@Autowired
 	private ApplicationContext context;
 	
-	public FileExporter getExporter(String acceptHeader) throws Exception {
+	public PersonExporter getExporter(String acceptHeader) throws Exception {
 		if (acceptHeader.equalsIgnoreCase(MediaTypes.APPLICATION_XLSX_VALUE)) {
 			return context.getBean(XlsxExporter.class);
 			

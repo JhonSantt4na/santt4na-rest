@@ -1,7 +1,7 @@
 package com.jhonn.santt4na_rest.file.exporter.impl;
 
 import com.jhonn.santt4na_rest.dataDTO.v1.PersonDTO;
-import com.jhonn.santt4na_rest.file.exporter.contract.FileExporter;
+import com.jhonn.santt4na_rest.file.exporter.contract.PersonExporter;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 import org.springframework.core.io.ByteArrayResource;
@@ -14,10 +14,10 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @Component
-public class CsvExporter implements FileExporter {
+public class CsvExporter implements PersonExporter {
 	
 	@Override
-	public Resource exportFile(List<PersonDTO> people) throws Exception {
+	public Resource exportPeople(List<PersonDTO> people) throws Exception {
 		
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		OutputStreamWriter writer = new OutputStreamWriter(outputStream, StandardCharsets.UTF_8);

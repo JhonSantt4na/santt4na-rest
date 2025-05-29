@@ -1,6 +1,7 @@
 package com.jhonn.santt4na_rest.dataDTO.v1;
 
 import org.springframework.hateoas.RepresentationModel;
+import org.springframework.hateoas.server.core.Relation;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -8,17 +9,18 @@ import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Objects;
 
+@Relation(collectionRelation = "books")
 public class BookDTO extends RepresentationModel<BookDTO> implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
+	
 	private Long id;
 	private String author;
 	private Date launchDate;
 	private Double price;
 	private String title;
 	
-	public BookDTO() {
-	}
+	public BookDTO() {}
 	
 	public Long getId() {
 		return id;
@@ -62,13 +64,13 @@ public class BookDTO extends RepresentationModel<BookDTO> implements Serializabl
 	
 	@Override
 	public boolean equals(Object o) {
-		if (!(o instanceof BookDTO bookDTO)) return false;
-		if (!super.equals(o)) return false;
-		return Objects.equals(getId(), bookDTO.getId()) && Objects.equals(getAuthor(), bookDTO.getAuthor()) && Objects.equals(getLaunchDate(), bookDTO.getLaunchDate()) && Objects.equals(getPrice(), bookDTO.getPrice()) && Objects.equals(getTitle(), bookDTO.getTitle());
+		if (o == null || getClass() != o.getClass()) return false;
+		BookDTO book = (BookDTO) o;
+		return Objects.equals(getId(), book.getId()) && Objects.equals(getAuthor(), book.getAuthor()) && Objects.equals(getLaunchDate(), book.getLaunchDate()) && Objects.equals(getPrice(), book.getPrice()) && Objects.equals(getTitle(), book.getTitle());
 	}
 	
 	@Override
 	public int hashCode() {
-		return Objects.hash(super.hashCode(), getId(), getAuthor(), getLaunchDate(), getPrice(), getTitle());
+		return Objects.hash(getId(), getAuthor(), getLaunchDate(), getPrice(), getTitle());
 	}
 }

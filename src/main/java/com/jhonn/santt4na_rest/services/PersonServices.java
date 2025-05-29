@@ -9,8 +9,7 @@ import com.jhonn.santt4na_rest.exceptions.RequiredObjectIsNullException;
 import com.jhonn.santt4na_rest.exceptions.ResourceNotFoundException;
 import static com.jhonn.santt4na_rest.mapper.ObjectMapper.parseObject;
 
-import com.jhonn.santt4na_rest.file.exporter.MediaTypes;
-import com.jhonn.santt4na_rest.file.exporter.contract.FileExporter;
+import com.jhonn.santt4na_rest.file.exporter.contract.PersonExporter;
 import com.jhonn.santt4na_rest.file.exporter.factory.FileExporterFactory;
 import com.jhonn.santt4na_rest.file.importer.contract.FileImporter;
 import com.jhonn.santt4na_rest.file.importer.factory.FileImporterFactory;
@@ -85,7 +84,7 @@ public class PersonServices {
 		
 		
 		try {
-			FileExporter exporter = this.exporter.getExporter(acceptHeader);
+			PersonExporter exporter = this.exporter.getExporter(acceptHeader);
 			return exporter.exportPerson(person);
 			
 		} catch (Exception e) {
@@ -111,8 +110,8 @@ public class PersonServices {
 		List<PersonDTO> people = dtoPage.getContent();
 		
 		try {
-			FileExporter exporter = this.exporter.getExporter(acceptHeader);
-			return exporter.exportFile(people);
+			PersonExporter exporter = this.exporter.getExporter(acceptHeader);
+			return exporter.exportPeople(people);
 		} catch (Exception e) {
 			throw new RuntimeException("Error during file export!", e);
 		}

@@ -1,7 +1,7 @@
 package com.jhonn.santt4na_rest.file.exporter.impl;
 
 import com.jhonn.santt4na_rest.dataDTO.v1.PersonDTO;
-import com.jhonn.santt4na_rest.file.exporter.contract.FileExporter;
+import com.jhonn.santt4na_rest.file.exporter.contract.PersonExporter;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.core.io.ByteArrayResource;
@@ -12,10 +12,10 @@ import java.io.ByteArrayOutputStream;
 import java.util.List;
 
 @Component
-public class XlsxExporter implements FileExporter {
+public class XlsxExporter implements PersonExporter {
 	
 	@Override
-	public Resource exportFile(List<PersonDTO> people) throws Exception {
+	public Resource exportPeople(List<PersonDTO> people) throws Exception {
 		
 		try(Workbook workbook = new XSSFWorkbook()){
 			
