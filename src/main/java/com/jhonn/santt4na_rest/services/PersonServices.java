@@ -80,13 +80,11 @@ public class PersonServices {
 		
 		var person = repository.findById(id)
 			.map(entity -> parseObject(entity, PersonDTO.class))
-			.orElseThrow(()-> new ResourceNotFoundException("No Records found for this ID"));
-		
+			.orElseThrow(() -> new ResourceNotFoundException("No records found for this ID!"));
 		
 		try {
 			PersonExporter exporter = this.exporter.getExporter(acceptHeader);
 			return exporter.exportPerson(person);
-			
 		} catch (Exception e) {
 			throw new RuntimeException("Error during file export!", e);
 		}
@@ -102,12 +100,11 @@ public class PersonServices {
 	}
 	
 	public Resource exportPage(Pageable pageable, String acceptHeader) {
-		logger.info("Exporting a People page");
+		logger.info("Exporting a People page!");
 		
-		Page<PersonDTO> dtoPage = repository.findAll(pageable)
-			.map(person -> parseObject(person, PersonDTO.class));
-		
-		List<PersonDTO> people = dtoPage.getContent();
+		var people = repository.findAll(pageable)
+			.map(person -> parseObject(person, PersonDTO.class))
+			.getContent();
 		
 		try {
 			PersonExporter exporter = this.exporter.getExporter(acceptHeader);

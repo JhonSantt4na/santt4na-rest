@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.PagedModel;
@@ -62,24 +63,28 @@ public class PersonController implements PersonControllerDocs {
 		HttpServletRequest request
 	) {
 		var sortDirection = "desc".equalsIgnoreCase(direction) ? Direction.DESC : Direction.ASC;
-		Pageable pageable = PageRequest.of(page, size, sortDirection, "firstName");
+		Pageable pageable = PageRequest.of(page, size, Sort.by(sortDirection, "firstName"));
 		
 		String acceptHeader = request.getHeader(HttpHeaders.ACCEPT);
+		
 		Resource file = service.exportPage(pageable, acceptHeader);
 		
-		Map<String, String> extencionMap = Map.of(
+		Map<String, String> extensionMap = Map.of(
 			MediaTypes.APPLICATION_XLSX_VALUE, ".xlsx",
 			MediaTypes.APPLICATION_CSV_VALUE, ".csv",
 			MediaTypes.APPLICATION_PDF_VALUE, ".pdf"
 		);
 		
-		var fileExtension = extencionMap.getOrDefault(acceptHeader, "");
-		var contentType = acceptHeader != null ? acceptHeader : "application/octet-steam";
-		var fileName = "people_exported" + fileExtension;
+		var fileExtension = extensionMap.getOrDefault(acceptHeader, "");
+		var contentType = acceptHeader != null ? acceptHeader : "application/octet-stream";
+		
+		var filename = "people_exported" + fileExtension;
 		
 		return ResponseEntity.ok()
 			.contentType(MediaType.parseMediaType(contentType))
-			.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileName + "\"")
+			.header(
+				HttpHeaders.CONTENT_DISPOSITION,
+				"attachment; filename=\"" + filename + "\"")
 			.body(file);
 	}
 		
