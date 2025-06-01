@@ -1,4 +1,4 @@
-package com.jhonn.santt4na_rest.services;
+package com.jhonn.santt4na_rest.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

@@ -4,7 +4,7 @@ import com.jhonn.santt4na_rest.controllers.docs.PersonControllerDocs;
 import com.jhonn.santt4na_rest.dataDTO.v1.PersonDTO;
 import com.jhonn.santt4na_rest.dataDTO.v2.PersonDTOV2;
 import com.jhonn.santt4na_rest.file.exporter.MediaTypes;
-import com.jhonn.santt4na_rest.services.PersonServices;
+import com.jhonn.santt4na_rest.service.PersonServices;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;

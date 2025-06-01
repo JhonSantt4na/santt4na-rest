@@ -2,7 +2,7 @@ package com.jhonn.santt4na_rest.controllers;
 
 import com.jhonn.santt4na_rest.controllers.docs.EmailControllerDocs;
 import com.jhonn.santt4na_rest.dataDTO.v1.request.EmailRequestDTO;
-import com.jhonn.santt4na_rest.services.EmailService;
+import com.jhonn.santt4na_rest.service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

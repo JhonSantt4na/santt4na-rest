@@ -1,4 +1,4 @@
-package com.jhonn.santt4na_rest.services;
+package com.jhonn.santt4na_rest.service;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.client.j2se.MatrixToImageWriter;

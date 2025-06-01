@@ -1,11 +1,10 @@
-package com.jhonn.santt4na_rest.services;
+package com.jhonn.santt4na_rest.service;
 
 import com.jhonn.santt4na_rest.config.FileStorageConfig;
 import com.jhonn.santt4na_rest.exceptions.FileNotFoundException;
 import com.jhonn.santt4na_rest.exceptions.FileStorageException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;

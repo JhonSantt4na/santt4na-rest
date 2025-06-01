@@ -3,7 +3,7 @@ package com.jhonn.santt4na_rest.file.exporter.impl;
 
 import com.jhonn.santt4na_rest.dataDTO.v1.PersonDTO;
 import com.jhonn.santt4na_rest.file.exporter.contract.PersonExporter;
-import com.jhonn.santt4na_rest.services.QRCodeService;
+import com.jhonn.santt4na_rest.service.QRCodeService;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.springframework.beans.factory.annotation.Autowired;

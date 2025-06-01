@@ -1,4 +1,4 @@
-package com.jhonn.santt4na_rest.services;
+package com.jhonn.santt4na_rest.service;
 
 import com.jhonn.santt4na_rest.controllers.PersonController;
 import com.jhonn.santt4na_rest.dataDTO.v1.PersonDTO;

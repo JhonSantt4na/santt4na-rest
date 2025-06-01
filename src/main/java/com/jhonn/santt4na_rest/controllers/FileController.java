@@ -2,7 +2,7 @@ package com.jhonn.santt4na_rest.controllers;
 
 import com.jhonn.santt4na_rest.controllers.docs.FileControllerDocs;
 import com.jhonn.santt4na_rest.dataDTO.v1.UploadFileResponseDTO;
-import com.jhonn.santt4na_rest.services.FileStorageService;
+import com.jhonn.santt4na_rest.service.FileStorageService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
