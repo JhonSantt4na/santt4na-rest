@@ -15,7 +15,7 @@ import java.util.List;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 	
-	@Value("${cors.originPatterns}") // Chamando o cors do application YML
+	@Value("${cors.originPatterns}")
 	private String corsOriginPatterns = "";
 	
 	@Override
@@ -23,14 +23,8 @@ public class WebConfig implements WebMvcConfigurer {
 		var allowedOrigins = corsOriginPatterns.split(",");
 		registry.addMapping("/**")
 			.allowedOrigins(allowedOrigins)
-			//.allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
-			.allowedMethods("*") // Aceitamos todos os metodos http
+			.allowedMethods("*")
 			.allowCredentials(true);
-		
-		/*Quando usamos o cors global devemos remover os Config cors dos controllers
-		* pois o global gerencia tudo.
-		*/
-	
 	}
 	
 	@Override

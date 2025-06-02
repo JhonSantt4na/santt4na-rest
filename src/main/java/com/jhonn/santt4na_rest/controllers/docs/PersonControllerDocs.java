@@ -9,7 +9,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.core.io.Resource;
-import org.springframework.data.domain.Page;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.PagedModel;
 import org.springframework.http.MediaType;
@@ -136,7 +135,6 @@ public interface PersonControllerDocs {
 		@RequestParam(value = "direction", defaultValue = "asc") String direction
 	);
 	
-	
 	@Operation(summary = "Finds a Person",
 		description = "Find a specific person by your ID",
 		tags = {"People"},
@@ -173,7 +171,6 @@ public interface PersonControllerDocs {
 		})
 	ResponseEntity<Resource> export(@PathVariable("id") Long id, HttpServletRequest request);
 	
-	
 	@Operation(summary = "Adds a new Person",
 		description = "Adds a new Person by passing in a JSON, XML, YML representation of the person.",
 		tags = {"People"},
@@ -188,7 +185,6 @@ public interface PersonControllerDocs {
 			@ApiResponse(description = "Internal Server Error", responseCode = "500", content = @Content)
 		})
 	PersonDTO create(@RequestBody PersonDTO person);
-	
 	
 	@Operation(summary = "Updated a Person`s information",
 		description = "Find a specific person by your ID",
@@ -223,7 +219,6 @@ public interface PersonControllerDocs {
 			@ApiResponse(description = "Internal Server Error", responseCode = "500", content = @Content)
 		})
 	PersonDTO disablePerson(@PathVariable("id") Long id);
-	
 	
 	@Operation(summary = "Delete a Person",
 		description = "Deletes a specific person by their ID",

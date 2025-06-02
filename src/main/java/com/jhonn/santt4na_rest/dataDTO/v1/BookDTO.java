@@ -3,15 +3,15 @@ package com.jhonn.santt4na_rest.dataDTO.v1;
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.hateoas.server.core.Relation;
 
+import java.io.Serial;
 import java.io.Serializable;
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Objects;
 
 @Relation(collectionRelation = "books")
 public class BookDTO extends RepresentationModel<BookDTO> implements Serializable {
 	
+	@Serial
 	private static final long serialVersionUID = 1L;
 	
 	private Long id;

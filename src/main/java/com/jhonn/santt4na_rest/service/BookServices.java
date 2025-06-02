@@ -1,6 +1,5 @@
 package com.jhonn.santt4na_rest.service;
 
-
 import com.jhonn.santt4na_rest.controllers.BookController;
 import com.jhonn.santt4na_rest.dataDTO.v1.BookDTO;
 import com.jhonn.santt4na_rest.exceptions.RequiredObjectIsNullException;
@@ -18,11 +17,9 @@ import org.springframework.hateoas.Link;
 import org.springframework.hateoas.PagedModel;
 import org.springframework.stereotype.Service;
 
-
 import static com.jhonn.santt4na_rest.mapper.ObjectMapper.parseObject;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
-
 
 @Service
 public class BookServices {
@@ -100,7 +97,6 @@ public class BookServices {
 			.orElseThrow(()-> new ResourceNotFoundException("No Records found for this ID"));
 		repository.delete(entity);
 	}
-	
 	
 	private static void addHateoasLinks(BookDTO dto) {
 		dto.add(linkTo(methodOn(BookController.class).findById(dto.getId())).withSelfRel().withType("GET"));

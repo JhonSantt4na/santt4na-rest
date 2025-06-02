@@ -17,7 +17,6 @@ public class EmailController implements EmailControllerDocs {
 	@Autowired
 	private EmailService service;
 	
-	
 	@PostMapping()
 	@Override
 	public ResponseEntity<String> sendEmail(@RequestBody EmailRequestDTO emailRequest) {

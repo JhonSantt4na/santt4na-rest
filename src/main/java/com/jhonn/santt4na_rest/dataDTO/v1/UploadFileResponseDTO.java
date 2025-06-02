@@ -1,10 +1,13 @@
 package com.jhonn.santt4na_rest.dataDTO.v1;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
 
 
 public class UploadFileResponseDTO implements Serializable {
+	
+	@Serial
 	private static final long serialVersionUID = 1L;
 	
 	private String fileName;

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 
 public interface BookControllerDocs {
+	
 	@Operation(summary = "Find All Book",
 		description = "Find All Book",
 		tags = {"Book"},
@@ -50,7 +51,6 @@ public interface BookControllerDocs {
 		@RequestParam(value = "direction", defaultValue = "asc") String direction
 	);
 	
-	
 	@Operation(summary = "Finds a Book",
 		description = "Find a specific book by your ID",
 		tags = {"Book"},
@@ -68,7 +68,6 @@ public interface BookControllerDocs {
 		})
 	BookDTO findById(@PathVariable("id") Long id);
 	
-	
 	@Operation(summary = "Adds a new Book",
 		description = "Adds a new book by passing in a JSON, XML, YML representation of the book.",
 		tags = {"Book"},
@@ -83,7 +82,6 @@ public interface BookControllerDocs {
 			@ApiResponse(description = "Internal Server Error", responseCode = "500", content = @Content)
 		})
 	BookDTO create(@RequestBody BookDTO person);
-	
 	
 	@Operation(summary = "Updated a book`s information",
 		description = "Find a specific book by your ID",
@@ -101,7 +99,6 @@ public interface BookControllerDocs {
 			@ApiResponse(description = "Internal Server Error", responseCode = "500", content = @Content)
 		})
 	BookDTO update(@RequestBody BookDTO person);
-	
 	
 	@Operation(summary = "Delete a Book",
 		description = "Deletes a specific book by their ID",

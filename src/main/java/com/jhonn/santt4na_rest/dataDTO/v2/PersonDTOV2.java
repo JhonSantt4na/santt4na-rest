@@ -1,14 +1,13 @@
 package com.jhonn.santt4na_rest.dataDTO.v2;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
 public class PersonDTOV2 implements Serializable {
 	
-	private static final long serialversionUID = 1l;
+	private static final long serialversionUID = 1L;
 	
 	private Long id;
 	private String firstName;

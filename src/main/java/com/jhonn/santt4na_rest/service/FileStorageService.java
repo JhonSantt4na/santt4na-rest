@@ -21,8 +21,6 @@ public class FileStorageService {
 	
 	private static final Logger logger = LoggerFactory.getLogger(FileStorageService.class);
 	
-	
-	
 	private final Path fileStorageLocation;
 	
 	public FileStorageService(FileStorageConfig fileStorageConfig) {

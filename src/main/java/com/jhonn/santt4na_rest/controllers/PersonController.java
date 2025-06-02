@@ -24,8 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 import java.util.Map;
 
-// Cors a Nivel de Controller
-//@CrossOrigin(origins = "http://localhost:8080")
+
 @RestController
 @RequestMapping("/api/person/v1")
 @Tag(name = "People", description = "Endpoints for Managing People")
@@ -105,7 +104,6 @@ public class PersonController implements PersonControllerDocs {
 		return ResponseEntity.ok(service.findByName(firstName, pageable));
 	}
 	
-	//@CrossOrigin(origins = "http://localhost:8080")
 	@GetMapping(value = "/{id}",
 		produces = {
 			MediaType.APPLICATION_JSON_VALUE,
@@ -117,7 +115,6 @@ public class PersonController implements PersonControllerDocs {
 		var person = service.findById(id);
 		return person;
 	}
-	
 	
 	@GetMapping(value = "/export/{id}",
 		produces = {
@@ -137,8 +134,6 @@ public class PersonController implements PersonControllerDocs {
 			.body(file);
 	}
 	
-	// CORS Para mais de um caminho usamos as ""
-	//@CrossOrigin(origins = {"http://localhost:8080", "http://localhost:8080"})
 	@PostMapping(
 		consumes = {
 			MediaType.APPLICATION_JSON_VALUE,
@@ -219,5 +214,4 @@ public class PersonController implements PersonControllerDocs {
 	public PersonDTOV2 create(@RequestBody PersonDTOV2 person) {
 		return service.createV2(person);
 	}
-	
 }

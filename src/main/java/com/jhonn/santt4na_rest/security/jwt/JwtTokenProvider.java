@@ -1,12 +1,22 @@
 package com.jhonn.santt4na_rest.security.jwt;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.jhonn.santt4na_rest.dataDTO.v1.security.TokenDTO;
+import com.jhonn.santt4na_rest.exceptions.InvalidJWTAuthenticationException;
 import jakarta.annotation.PostConstruct;
+import jakarta.servlet.http.HttpServletRequest;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.Base64;
 import java.util.Date;
@@ -34,7 +44,6 @@ public class JwtTokenProvider {
 	
 	public TokenDTO createAccessToken(String username, List<String> roles){
 		
-		
 		Date now = new Date();
 		Date validity = new Date(now.getTime() + validityInMilliseconds);
 		String accessToken = getAccessToken(username, roles, now, validity);
@@ -50,10 +59,66 @@ public class JwtTokenProvider {
 	}
 	
 	private String getAccessToken(String username, List<String> roles, Date now, Date validity) {
-		return "";
+		
+		String issuerUrl = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
+		
+		return JWT.create()
+			.withClaim("roles", roles)
+			.withIssuedAt(now)
+			.withExpiresAt(validity)
+			.withSubject(username)
+			.withIssuer(issuerUrl)
+			.sign(algorithm);
 	}
 	
 	private String getRefreshToken(String username, List<String> roles, Date now) {
-		return "";
+		
+		Date refreshTokenValidity = new Date(now.getTime() + validityInMilliseconds);
+		return JWT.create()
+			.withClaim("roles", roles)
+			.withIssuedAt(now)
+			.withExpiresAt(refreshTokenValidity)
+			.withSubject(username)
+			.sign(algorithm);
 	}
+	
+	public Authentication getAuthentication(String token){
+		DecodedJWT decodedJWT = decodedToken(token);
+		UserDetails userDetails = this.userDetailsService
+			.loadUserByUsername(decodedJWT.getSubject());
+		return new UsernamePasswordAuthenticationToken(userDetails,"", userDetails.getAuthorities());
+	}
+	
+	private DecodedJWT decodedToken(String token) {
+		Algorithm alg = Algorithm.HMAC256(secretKey.getBytes());
+		JWTVerifier verifier = JWT.require(alg).build();
+		DecodedJWT decodedJWT = verifier.verify(token);
+		return decodedJWT;
+	}
+	
+	public String resolveToken(HttpServletRequest request){
+		String bearerToken = request.getHeader("Authorization");
+		
+		//Bearer token
+		if (StringUtils.isEmpty(bearerToken) && bearerToken.startsWith("Bearer ")) {
+			return bearerToken.substring("Bearer ".length());
+		} else {
+			throw new InvalidJWTAuthenticationException("Invalid JWT Token");
+		}
+	}
+	
+	public boolean validateToken(String token){
+		DecodedJWT decodedJWT = decodedToken(token);
+		
+		try {
+			if (decodedJWT.getExpiresAt().before(new Date())){
+				return false;
+			}else {
+				return true;
+			}
+		} catch (Exception e) {
+			throw new InvalidJWTAuthenticationException("Expired or Invalid JWT Token");
+		}
+	}
+	
 }

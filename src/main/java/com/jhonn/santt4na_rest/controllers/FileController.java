@@ -31,19 +31,13 @@ public class FileController implements FileControllerDocs {
 	@Override
 	@PostMapping("/uploadFile")
 	public UploadFileResponseDTO uploadFile(@RequestParam("file") MultipartFile file) {
-		// Recebemo o file  e passamos para o servico que trata onde vai salvar no disco e retorna o nome do arquivo
+		
 		var fileName = service.storeFile(file);
-		
-		
-		// Montando a Uri - Contruindo o caminho de acordo com o ambiente que esta rodando
-		//http://localhost:8080/api/file/v1/downloadFile/filename.docx
 		var fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
 			.path("/api/file/v1/downloadFile")// Endpoint especifico
 			.path(fileName)//
 			.toUriString();
 		
-		
-		// Precisamos montar o retorno :
 		return new UploadFileResponseDTO(fileName, fileDownloadUri, file.getContentType(), file.getSize());
 	}
 	

@@ -2,7 +2,6 @@ package com.jhonn.santt4na_rest.model;
 
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
-
 import java.io.Serializable;
 import java.util.Objects;
 

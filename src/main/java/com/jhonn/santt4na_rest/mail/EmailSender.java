@@ -87,8 +87,6 @@ public class EmailSender implements Serializable {
 		this.attachment = null;
 	}
 	
-	
-	//email@gmail.com;email2@gmail.com;email3@gmail.com
 	private ArrayList<InternetAddress> getRecipients(String to) {
 		
 		String toWithoutSpaces = to.replaceAll("\\s", "");

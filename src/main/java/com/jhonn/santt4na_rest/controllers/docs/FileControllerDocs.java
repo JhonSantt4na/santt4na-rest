@@ -15,5 +15,4 @@ public interface FileControllerDocs {
 	UploadFileResponseDTO uploadFile (MultipartFile file);
 	List<UploadFileResponseDTO> uploadMultipleFile (MultipartFile[] files);
 	ResponseEntity<Resource> downloadFile(String fileName, HttpServletRequest request);
-	
 }

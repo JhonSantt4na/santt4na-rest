@@ -13,7 +13,6 @@ import java.io.InputStream;
 @Service
 public class QRCodeService {
 	
-	
 	public InputStream generateQRCode(String url, int width, int height) throws Exception {
 		QRCodeWriter qrCodeWriter = new QRCodeWriter();
 		BitMatrix bitMatrix = qrCodeWriter.encode(url, BarcodeFormat.QR_CODE, width, height);

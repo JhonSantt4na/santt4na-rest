@@ -11,5 +11,4 @@ public class InvalidJWTAuthenticationException extends AuthenticationException {
       super(message);
   }
 
-
 }

@@ -20,7 +20,6 @@ public interface EmailControllerDocs {
 		})
 	ResponseEntity<String> sendEmail(EmailRequestDTO emailRequestDTO);
 	
-	
 	@Operation(summary = "Send an e-Mail with Attachment",
 		description = "Send an e_mail with Attachment by provider details, subject and body",
 		tags = {"Email"},
