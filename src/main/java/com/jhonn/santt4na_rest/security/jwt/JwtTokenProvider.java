@@ -28,7 +28,7 @@ public class JwtTokenProvider {
 	@Value("${security.jwt.token.secret-key:secret}")
 	private String secretKey = "secret";
 	
-	@Value("${security.jwt.token.secret-lenght:3600000}")
+	@Value("${security.jwt.token.secret-length :3600000}")
 	private long validityInMilliseconds = 3600000; // 1hr
 	
 	@Autowired
@@ -111,11 +111,7 @@ public class JwtTokenProvider {
 		DecodedJWT decodedJWT = decodedToken(token);
 		
 		try {
-			if (decodedJWT.getExpiresAt().before(new Date())){
-				return false;
-			}else {
-				return true;
-			}
+			return !decodedJWT.getExpiresAt().before(new Date());
 		} catch (Exception e) {
 			throw new InvalidJWTAuthenticationException("Expired or Invalid JWT Token");
 		}
