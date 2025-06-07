@@ -2,7 +2,7 @@ package com.jhonn.santt4na_rest.controllers;
 
 import com.jhonn.santt4na_rest.controllers.docs.BookControllerDocs;
 import com.jhonn.santt4na_rest.dataDTO.v1.BookDTO;
-import com.jhonn.santt4na_rest.service.BookServices;
+import com.jhonn.santt4na_rest.service.BookService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 public class BookController implements BookControllerDocs {
 	
 	@Autowired
-	BookServices service;
+	BookService service;
 	
 	@GetMapping(produces = {
 		MediaType.APPLICATION_JSON_VALUE,

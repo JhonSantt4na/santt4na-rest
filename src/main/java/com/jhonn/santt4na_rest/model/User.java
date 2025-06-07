@@ -32,7 +32,7 @@ public class User implements UserDetails {
 	@Column(name = "account_non_locked")
 	private Boolean accountNonLocked;
 	
-	@Column(name = "credential_non_expired")
+	@Column(name = "credentials_non_expired")
 	private Boolean credentialsNonExpired;
 	
 	@Column()

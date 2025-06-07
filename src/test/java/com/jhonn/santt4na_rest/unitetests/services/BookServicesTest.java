@@ -2,7 +2,7 @@ package com.jhonn.santt4na_rest.unitetests.services;
 
 import com.jhonn.santt4na_rest.dataDTO.v1.BookDTO;
 import com.jhonn.santt4na_rest.exceptions.RequiredObjectIsNullException;
-import com.jhonn.santt4na_rest.service.BookServices;
+import com.jhonn.santt4na_rest.service.BookService;
 import com.jhonn.santt4na_rest.unitetests.mapper.mocks.MockBook;
 import com.jhonn.santt4na_rest.model.Book;
 import com.jhonn.santt4na_rest.repository.BookRepository;
@@ -36,7 +36,7 @@ public class BookServicesTest {
 	private BookRepository repository;
 	
 	@InjectMocks
-	private BookServices service;
+	private BookService service;
 	
 	@Test
 	void findById() {

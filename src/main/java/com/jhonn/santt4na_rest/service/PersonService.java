@@ -40,9 +40,9 @@ import java.util.Optional;
 
 
 @Service
-public class PersonServices {
+public class PersonService {
 	
-	private final Logger logger = LoggerFactory.getLogger(PersonServices.class.getName());
+	private final Logger logger = LoggerFactory.getLogger(PersonService.class.getName());
 	@Autowired
 	PersonMapper converter;
 	
@@ -54,7 +54,7 @@ public class PersonServices {
 	@Autowired
 	FileExporterFactory exporter;
 	
-	public PersonServices(PersonRepository repository) {
+	public PersonService(PersonRepository repository) {
 		this.repository = repository;
 	}
 	

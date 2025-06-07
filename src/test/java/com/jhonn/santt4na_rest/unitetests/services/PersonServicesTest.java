@@ -3,7 +3,7 @@ package com.jhonn.santt4na_rest.unitetests.services;
 
 import com.jhonn.santt4na_rest.dataDTO.v1.PersonDTO;
 import com.jhonn.santt4na_rest.exceptions.RequiredObjectIsNullException;
-import com.jhonn.santt4na_rest.service.PersonServices;
+import com.jhonn.santt4na_rest.service.PersonService;
 import com.jhonn.santt4na_rest.unitetests.mapper.mocks.MockPerson;
 import com.jhonn.santt4na_rest.model.Person;
 import com.jhonn.santt4na_rest.repository.PersonRepository;
@@ -32,7 +32,7 @@ class PersonServicesTest {
 	private PersonRepository repository;
 	
 	@InjectMocks
-	private PersonServices service;
+	private PersonService service;
 	
 	@Test
 	void findById() {

@@ -15,6 +15,7 @@ import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -31,21 +32,20 @@ public class SecurityConfig {
 	}
 	
 	@Bean
-	PasswordEncoder passwordEncoder() {
+	public PasswordEncoder passwordEncoder() {
 		
 		PasswordEncoder pbkdf2Encoder = new Pbkdf2PasswordEncoder(
 			"", 8, 185000,
 			Pbkdf2PasswordEncoder.SecretKeyFactoryAlgorithm.PBKDF2WithHmacSHA256);
 		
 		Map<String, PasswordEncoder> encoders = new HashMap<>();
-		
 		encoders.put("pbkdf2", pbkdf2Encoder);
-		DelegatingPasswordEncoder passwordEncoder = new DelegatingPasswordEncoder("pbkdf2", encoders);
 		
-		passwordEncoder.setDefaultPasswordEncoderForMatches(pbkdf2Encoder);
-		return passwordEncoder();
+		DelegatingPasswordEncoder delegatingPasswordEncoder = new DelegatingPasswordEncoder("pbkdf2", encoders);
+		delegatingPasswordEncoder.setDefaultPasswordEncoderForMatches(pbkdf2Encoder);
+		
+		return delegatingPasswordEncoder;
 	}
-	
 	
 	@Bean
 	AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception{
@@ -53,13 +53,13 @@ public class SecurityConfig {
 	}
 	
 	@Bean
-	SecurityFilterChain securityFilterChain(HttpSecurity http) {
+	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		JwtTokenFilter filter = new JwtTokenFilter(tokenProvider);
 		
 		return http
 			.httpBasic(AbstractHttpConfigurer::disable)
 				.csrf(AbstractHttpConfigurer::disable)
-					.addFilterBefore(filter)
+					.addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class)
 			.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 			.authorizeHttpRequests(
 				authorizeHttpRequests ->
@@ -74,8 +74,6 @@ public class SecurityConfig {
 						.requestMatchers("/users").denyAll()
 			)
 			.cors(cors -> {})
-			
 			.build();
 	}
-	
 }
