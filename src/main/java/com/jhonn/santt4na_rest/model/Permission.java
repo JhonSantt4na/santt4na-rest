@@ -2,6 +2,8 @@ package com.jhonn.santt4na_rest.model;
 
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
+
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -9,6 +11,7 @@ import java.util.Objects;
 @Table(name = "permission")
 public class Permission implements GrantedAuthority,Serializable {
 	
+	@Serial
 	private static final long serialVersionUID = 1L;
 	
 	@Id
