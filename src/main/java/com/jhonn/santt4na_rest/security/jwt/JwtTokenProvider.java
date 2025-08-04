@@ -28,8 +28,8 @@ public class JwtTokenProvider {
 	@Value("${security.jwt.token.secret-key:secret}")
 	private String secretKey = "secret";
 	
-	@Value("${security.jwt.token.secret-length :3600000}")
-	private long validityInMilliseconds = 3600000; // 1hr
+	@Value("${security.jwt.token.secret-length:3600000}")
+	private final long validityInMilliseconds = 3600000; // 1hr
 	
 	@Autowired
 	private UserDetailsService userDetailsService;
@@ -58,9 +58,29 @@ public class JwtTokenProvider {
 		);
 	}
 	
+	public TokenDTO refreshToken(String refreshToken){
+		
+		var token = "";
+		
+		if(StringUtils.isNotBlank(refreshToken) && refreshToken.startsWith("Bearer ")){
+			token = refreshToken.substring("Bearer ".length());
+		}
+		
+		JWTVerifier verifier = JWT.require(algorithm).build(); //Verifier the signature
+		DecodedJWT decodedJWT = verifier.verify(token);
+		String username = decodedJWT.getSubject();
+		List<String> roles = decodedJWT.getClaim("roles").asList(String.class);
+		
+		return createAccessToken(username, roles);
+	}
+	
+	private static boolean refreshTokenContainsBearer(String refreshToken) {
+		return StringUtils.isNotBlank(refreshToken) && refreshToken.startsWith("Bearer ");
+	}
+	
 	private String getAccessToken(String username, List<String> roles, Date now, Date validity) {
 		
-		String issuerUrl = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
+		String issuerUrl = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString(); // Pegando o dominio
 		
 		return JWT.create()
 			.withClaim("roles", roles)
@@ -85,13 +105,13 @@ public class JwtTokenProvider {
 	public Authentication getAuthentication(String token){
 		DecodedJWT decodedJWT = decodedToken(token);
 		UserDetails userDetails = this.userDetailsService
-			.loadUserByUsername(decodedJWT.getSubject());
+			.loadUserByUsername(decodedJWT.getSubject()); //Get the Authentication
 		return new UsernamePasswordAuthenticationToken(userDetails,"", userDetails.getAuthorities());
 	}
 	
 	private DecodedJWT decodedToken(String token) {
 		Algorithm alg = Algorithm.HMAC256(secretKey.getBytes());
-		JWTVerifier verifier = JWT.require(alg).build();
+		JWTVerifier verifier = JWT.require(alg).build(); //Verifier the signature
 		DecodedJWT decodedJWT = verifier.verify(token);
 		return decodedJWT;
 	}
@@ -100,13 +120,12 @@ public class JwtTokenProvider {
 		String bearerToken = request.getHeader("Authorization");
 		
 		//Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsZWFuZHJvIiwicm9sZXMiOlsiQURNSU4iLCJNQU5BR0VSIl0sImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODA4MCIsImV4cCI6MTY1MjcxOTUzOCwiaWF0IjoxNjUyNzE1OTM4fQ.muu8eStsRobqLyrFYLHRiEvOSHAcss4ohSNtmwWTRcY
-		if(refreshTokenContainsBearer(bearerToken)) return bearerToken.substring("Bearer ".length());
+		if(refreshTokenContainsBearer(bearerToken)) {
+			return bearerToken.substring("Bearer ".length());
+		}
 		return null;
 	}
 	
-	private static boolean refreshTokenContainsBearer(String refreshToken) {
-		return StringUtils.isNotBlank(refreshToken) && refreshToken.startsWith("Bearer ");
-	}
 	
 	public boolean validateToken(String token){
 		DecodedJWT decodedJWT = decodedToken(token);
@@ -117,5 +136,4 @@ public class JwtTokenProvider {
 			throw new InvalidJWTAuthenticationException("Expired or Invalid JWT Token");
 		}
 	}
-	
 }

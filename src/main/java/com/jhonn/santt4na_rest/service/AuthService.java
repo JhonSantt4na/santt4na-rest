@@ -33,9 +33,8 @@ public class AuthService {
 		);
 		
 		var user = repository.findByUsername(credentials.getUsername());
-		
 		if (user == null) {
-			throw  new UsernameNotFoundException("Username " + credentials.getUsername() + " not found.");
+			throw new UsernameNotFoundException("Username " + credentials.getUsername() + " not found.");
 		}
 		
 		var token = tokenProvider.createAccessToken(
@@ -45,4 +44,17 @@ public class AuthService {
 		
 		return ResponseEntity.ok(token);
 	}
+	
+	public ResponseEntity<TokenDTO> refreshToken(String username, String refreshToken) {
+		var user = repository.findByUsername(username);
+		TokenDTO token;
+		
+		if (user != null) {
+			token = tokenProvider.refreshToken(refreshToken);
+		}else {
+			throw new UsernameNotFoundException("Username " + username + " not found.");
+		}
+		return ResponseEntity.ok(token);
+	}
+	
 }

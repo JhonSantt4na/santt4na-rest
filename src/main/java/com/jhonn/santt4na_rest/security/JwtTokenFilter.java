@@ -17,7 +17,7 @@ import java.io.IOException;
 public class JwtTokenFilter extends GenericFilterBean {
 	
 	@Autowired
-	private JwtTokenProvider tokenProvider;
+	private final JwtTokenProvider tokenProvider;
 	
 	public JwtTokenFilter(JwtTokenProvider tokenProvider) {
 		this.tokenProvider = tokenProvider;
@@ -26,8 +26,8 @@ public class JwtTokenFilter extends GenericFilterBean {
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain filter)
 		throws IOException, ServletException {
-		
-		var token = tokenProvider.resolveToken((HttpServletRequest) request);
+		var token = tokenProvider.resolveToken((HttpServletRequest) request); // get Token
+	
 		if (StringUtils.isNotBlank(token) && tokenProvider.validateToken(token)){
 			
 			Authentication authentication = tokenProvider.getAuthentication(token);
@@ -36,6 +36,6 @@ public class JwtTokenFilter extends GenericFilterBean {
 			}
 		}
 		
-		filter.doFilter(request, response);
+		filter.doFilter(request, response); // Passes the request to the next filter or if you do not have a pass for the application
 	}
 }

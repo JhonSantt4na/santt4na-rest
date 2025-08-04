@@ -25,7 +25,7 @@ import java.util.Map;
 public class SecurityConfig {
 	
 	@Autowired
-	private JwtTokenProvider tokenProvider;
+	private final JwtTokenProvider tokenProvider;
 	
 	public SecurityConfig(JwtTokenProvider tokenProvider){
 		this.tokenProvider = tokenProvider;
