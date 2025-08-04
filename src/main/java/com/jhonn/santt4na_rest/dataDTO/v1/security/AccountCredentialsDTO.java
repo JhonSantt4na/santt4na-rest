@@ -6,9 +6,16 @@ import java.util.Objects;
 public class AccountCredentialsDTO implements Serializable {
 	
 	private String username;
+	private String fullname;
 	private String password;
 	
 	public AccountCredentialsDTO() {
+	}
+	
+	public AccountCredentialsDTO(String username, String fullname, String password) {
+		this.username = username;
+		this.fullname = fullname;
+		this.password = password;
 	}
 	
 	public String getUsername() {
@@ -27,15 +34,23 @@ public class AccountCredentialsDTO implements Serializable {
 		this.password = password;
 	}
 	
+	public String getFullname() {
+		return fullname;
+	}
+	
+	public void setFullname(String fullname) {
+		this.fullname = fullname;
+	}
+	
 	@Override
 	public boolean equals(Object o) {
 		if (o == null || getClass() != o.getClass()) return false;
 		AccountCredentialsDTO that = (AccountCredentialsDTO) o;
-		return Objects.equals(username, that.username) && Objects.equals(password, that.password);
+		return Objects.equals(username, that.username) && Objects.equals(fullname, that.fullname) && Objects.equals(password, that.password);
 	}
 	
 	@Override
 	public int hashCode() {
-		return Objects.hash(username, password);
+		return Objects.hash(username, fullname, password);
 	}
 }
