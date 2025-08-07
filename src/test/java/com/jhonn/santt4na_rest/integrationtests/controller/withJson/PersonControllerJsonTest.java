@@ -1,9 +1,13 @@
 package com.jhonn.santt4na_rest.integrationtests.controller.withJson;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jhonn.santt4na_rest.config.TestConfigs;
 import com.jhonn.santt4na_rest.integrationtests.AbstractIntegrationTest;
+import com.jhonn.santt4na_rest.integrationtests.dto.AccountCredentialsDTO;
 import com.jhonn.santt4na_rest.integrationtests.dto.PersonDTO;
+import com.jhonn.santt4na_rest.integrationtests.dto.TokenDTO;
 import com.jhonn.santt4na_rest.integrationtests.dto.wrappers.json.WrapperPersonDTO;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.filter.log.LogDetail;
@@ -12,24 +16,23 @@ import io.restassured.filter.log.ResponseLoggingFilter;
 import io.restassured.specification.RequestSpecification;
 import org.junit.jupiter.api.*;
 import org.springframework.boot.test.context.SpringBootTest;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.MediaType;
 
 import java.util.List;
-
 import static io.restassured.RestAssured.given;
-import static org.junit.Assert.*;
-
+import static junit.framework.TestCase.assertTrue;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class) // Ordenando pois o JUnit roda sem order
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class PersonControllerJsonTest extends AbstractIntegrationTest {
 	
 	private static RequestSpecification specification;
 	private static ObjectMapper objectMapper;
 	
 	private static PersonDTO person;
+	private static TokenDTO tokenDto;
 	
 	@BeforeAll
 	static void setUp() {
@@ -37,15 +40,40 @@ class PersonControllerJsonTest extends AbstractIntegrationTest {
 		objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
 		
 		person = new PersonDTO();
+		tokenDto = new TokenDTO();
+	}
+	
+	@Test
+	@Order(0)
+	void signin() {
+		AccountCredentialsDTO credentials =
+			new AccountCredentialsDTO("leandro", "admin123");
+		
+		tokenDto = given()
+			.basePath("/auth/signin")
+			.port(TestConfigs.SERVER_PORT)
+			.contentType(MediaType.APPLICATION_JSON_VALUE)
+			.body(credentials)
+			.when()
+			.post()
+			.then()
+			.statusCode(200)
+			.extract()
+			.body()
+			.as(TokenDTO.class);
+		
 		
 		specification = new RequestSpecBuilder()
 			.addHeader(TestConfigs.HEADER_PARAM_ORIGIN, TestConfigs.ORIGIN_JHONN)
+			.addHeader(TestConfigs.HEADER_PARAM_AUTHORIZATION, "Bearer " + tokenDto.getAccessToken())
 			.setBasePath("/api/person/v1")
 			.setPort(TestConfigs.SERVER_PORT)
 			.addFilter(new RequestLoggingFilter(LogDetail.ALL))
 			.addFilter(new ResponseLoggingFilter(LogDetail.ALL))
 			.build();
 		
+		assertNotNull(tokenDto.getAccessToken());
+		assertNotNull(tokenDto.getRefreshToken());
 	}
 	
 	@Test
@@ -149,8 +177,8 @@ class PersonControllerJsonTest extends AbstractIntegrationTest {
 			.when()
 			.patch("{id}")
 			.then()
-				.statusCode(200)
-				.contentType(MediaType.APPLICATION_JSON_VALUE)
+			.statusCode(200)
+			.contentType(MediaType.APPLICATION_JSON_VALUE)
 			.extract()
 			.body()
 			.asString();
@@ -173,20 +201,13 @@ class PersonControllerJsonTest extends AbstractIntegrationTest {
 	void deleteTest() throws JsonProcessingException {
 		
 		given(specification)
-				.pathParam("id", person.getId())
+			.pathParam("id", person.getId())
 			.when()
-				.delete("{id}")
+			.delete("{id}")
 			.then()
-				.statusCode(204);
+			.statusCode(204);
 	}
 	
-	private void mockPerson() {
-		person.setFirstName("Linux");
-		person.setLastName("Stallman");
-		person.setAddress("Rua C");
-		person.setGender("Male");
-		person.setEnabled(true);
-	}
 	
 	@Test
 	@Order(6)
@@ -194,7 +215,7 @@ class PersonControllerJsonTest extends AbstractIntegrationTest {
 		
 		var content = given(specification)
 			.accept(MediaType.APPLICATION_JSON_VALUE)
-			.queryParam("page", 3, "size", 12, "direction", "asc")
+			.queryParams("page", 3, "size", 12, "direction", "asc")
 			.when()
 			.get()
 			.then()
@@ -213,8 +234,8 @@ class PersonControllerJsonTest extends AbstractIntegrationTest {
 		assertTrue(personOne.getId() > 0);
 		
 		assertEquals("Allin", personOne.getFirstName());
-		assertEquals("Otridge", personOne.getLastName());
-		assertEquals("09846 Independence Center", personOne.getAddress());
+		assertEquals("Emmot", personOne.getLastName());
+		assertEquals("7913 Lindbergh Way", personOne.getAddress());
 		assertEquals("Male", personOne.getGender());
 		assertFalse(personOne.getEnabled());
 		
@@ -228,17 +249,17 @@ class PersonControllerJsonTest extends AbstractIntegrationTest {
 		assertEquals("9 Doe Crossing Avenue", personFour.getAddress());
 		assertEquals("Male", personFour.getGender());
 		assertFalse(personFour.getEnabled());
-		
 	}
 	
 	@Test
 	@Order(7)
 	void findByNameTest() throws JsonProcessingException {
 		
+		// {{baseUrl}}/api/person/v1/findPeopleByName/and?page=0&size=12&direction=asc
 		var content = given(specification)
 			.accept(MediaType.APPLICATION_JSON_VALUE)
-			.pathParam("firstName","and")
-			.queryParam("page", 0, "size", 12, "direction", "asc")
+			.pathParam("firstName", "and")
+			.queryParams("page", 0, "size", 12, "direction", "asc")
 			.when()
 			.get("findPeopleByName/{firstName}")
 			.then()
@@ -272,7 +293,13 @@ class PersonControllerJsonTest extends AbstractIntegrationTest {
 		assertEquals("96 Mosinee Parkway", personFour.getAddress());
 		assertEquals("Male", personFour.getGender());
 		assertTrue(personFour.getEnabled());
-		
 	}
 	
+	private void mockPerson() {
+		person.setFirstName("Linux");
+		person.setLastName("Stallman");
+		person.setAddress("Rua C");
+		person.setGender("Male");
+		person.setEnabled(true);
+	}
 }

@@ -54,12 +54,12 @@ public class PersonService {
 	@Autowired
 	FileExporterFactory exporter;
 	
-	public PersonService(PersonRepository repository) {
-		this.repository = repository;
-	}
-	
-	@Autowired
 	PagedResourcesAssembler<PersonDTO> assembler;
+	
+	public PersonService(PersonRepository repository, PagedResourcesAssembler<PersonDTO> assembler) {
+		this.repository = repository;
+		this.assembler = assembler;
+	}
 	
 	public PagedModel<EntityModel<PersonDTO>> findAll(Pageable pageable){
 		logger.info("Finding all Person!");

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.Serializable;
 
+
 public class WrapperBookDTO implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
@@ -11,8 +12,7 @@ public class WrapperBookDTO implements Serializable {
 	@JsonProperty("_embedded")
 	private BookEmbeddedDTO embedded;
 	
-	public WrapperBookDTO() {
-	}
+	public WrapperBookDTO() {}
 	
 	public BookEmbeddedDTO getEmbedded() {
 		return embedded;

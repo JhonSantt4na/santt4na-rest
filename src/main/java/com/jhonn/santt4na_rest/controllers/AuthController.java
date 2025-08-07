@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Authentication Endpoint")
 @RestController
 @RequestMapping("/auth")
-public abstract class AuthController implements AuthControllerDocs {
+public class AuthController implements AuthControllerDocs {
 	
 	@Autowired
 	AuthService service;
@@ -30,7 +30,7 @@ public abstract class AuthController implements AuthControllerDocs {
 		if (token == null) {
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Invalid client request!");
 		}
-		return ResponseEntity.ok().body(token);
+		return token;
 	}
 	
 	@PutMapping("/refresh/{username}")
@@ -46,7 +46,7 @@ public abstract class AuthController implements AuthControllerDocs {
 		if (token == null) {
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Invalid client request!");
 		}
-		return ResponseEntity.ok().body(token);
+		return token;
 	}
 	
 	private boolean parametersAreInvalid(String username, String refreshToken) {

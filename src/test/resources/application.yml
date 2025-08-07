@@ -3,7 +3,7 @@ server:
 cors:
   originPatterns: http://localhost:8080,http://localhost:3000
 file:
-  upload-dir: /Apps/Upload
+  upload-dir: ./uploads
 email:
   subject:"Default Subject"
   message:"Default Message"

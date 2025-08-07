@@ -9,17 +9,16 @@ public class BookEmbeddedDTO implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
-	@JsonProperty("bookDTOList")
-	private List<BookDTO> book;
+	@JsonProperty("books")
+	private List<BookDTO> books;
 	
-	public BookEmbeddedDTO() {
+	public BookEmbeddedDTO() {}
+	
+	public List<BookDTO> getBooks() {
+		return books;
 	}
 	
-	public List<BookDTO> getBook() {
-		return book;
-	}
-	
-	public void setBook(List<BookDTO> book) {
-		this.book = book;
+	public void setBooks(List<BookDTO> books) {
+		this.books = books;
 	}
 }

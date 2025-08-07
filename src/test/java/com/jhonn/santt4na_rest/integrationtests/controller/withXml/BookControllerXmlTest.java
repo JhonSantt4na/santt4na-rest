@@ -1,47 +1,45 @@
-package com.jhonn.santt4na_rest.integrationtests.controller.withYml;
+package com.jhonn.santt4na_rest.integrationtests.controller.withXml;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.jhonn.santt4na_rest.config.TestConfigs;
 import com.jhonn.santt4na_rest.integrationtests.AbstractIntegrationTest;
-import com.jhonn.santt4na_rest.integrationtests.controller.withYml.mapper.YAMLMapper;
 import com.jhonn.santt4na_rest.integrationtests.dto.AccountCredentialsDTO;
 import com.jhonn.santt4na_rest.integrationtests.dto.BookDTO;
 import com.jhonn.santt4na_rest.integrationtests.dto.TokenDTO;
 import com.jhonn.santt4na_rest.integrationtests.dto.wrappers.xml.PagedModelBook;
 import io.restassured.builder.RequestSpecBuilder;
-import io.restassured.config.EncoderConfig;
-import io.restassured.config.RestAssuredConfig;
 import io.restassured.filter.log.LogDetail;
 import io.restassured.filter.log.RequestLoggingFilter;
 import io.restassured.filter.log.ResponseLoggingFilter;
-import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
 import org.junit.jupiter.api.*;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 
 import java.util.Date;
-import java.util.List;
 
 import static io.restassured.RestAssured.given;
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.*;
 
-@Nested
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class BookControllerYamlTest extends AbstractIntegrationTest {
+class BookControllerXmlTest extends AbstractIntegrationTest {
 	
 	private static RequestSpecification specification;
-	private static YAMLMapper objectMapper;
+	private static XmlMapper objectMapper;
 	
 	private static BookDTO book;
 	private static TokenDTO tokenDto;
 	
 	@BeforeAll
 	static void setUp() {
-		objectMapper = new YAMLMapper();
+		objectMapper = new XmlMapper();
+		objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+		
 		book = new BookDTO();
 		tokenDto = new TokenDTO();
 	}
@@ -52,34 +50,31 @@ class BookControllerYamlTest extends AbstractIntegrationTest {
 		AccountCredentialsDTO credentials =
 			new AccountCredentialsDTO("leandro", "admin123");
 		
-		tokenDto = given()
-			.config(
-				RestAssuredConfig.config()
-					.encoderConfig(
-						EncoderConfig.encoderConfig().
-							encodeContentTypeAs(MediaType.APPLICATION_YAML_VALUE, ContentType.TEXT))
-			)
+		var content = given()
 			.basePath("/auth/signin")
 			.port(TestConfigs.SERVER_PORT)
-			.contentType(MediaType.APPLICATION_YAML_VALUE)
-			.accept(MediaType.APPLICATION_YAML_VALUE)
-			.body(credentials, objectMapper)
+			.contentType(MediaType.APPLICATION_XML_VALUE)
+			.accept(MediaType.APPLICATION_XML_VALUE)
+			.body(credentials)
 			.when()
 			.post()
 			.then()
 			.statusCode(200)
 			.extract()
 			.body()
-			.as(TokenDTO.class, objectMapper);
+			.asString();
+		
+		tokenDto = objectMapper.readValue(content, TokenDTO.class);
 		
 		specification = new RequestSpecBuilder()
 			.addHeader(TestConfigs.HEADER_PARAM_ORIGIN, TestConfigs.ORIGIN_JHONN)
-			.addHeader(TestConfigs.HEADER_PARAM_AUTHORIZATION, "Bearer " + tokenDto.getRefreshToken())
+			.addHeader(TestConfigs.HEADER_PARAM_AUTHORIZATION, "Bearer " + tokenDto.getAccessToken())
 			.setBasePath("/api/book/v1")
 			.setPort(TestConfigs.SERVER_PORT)
 			.addFilter(new RequestLoggingFilter(LogDetail.ALL))
 			.addFilter(new ResponseLoggingFilter(LogDetail.ALL))
 			.build();
+		
 		
 		assertNotNull(tokenDto.getAccessToken());
 		assertNotNull(tokenDto.getRefreshToken());
@@ -90,24 +85,20 @@ class BookControllerYamlTest extends AbstractIntegrationTest {
 	void createTest() throws JsonProcessingException {
 		mockBook();
 		
-		var createdBook = given().config(
-				RestAssuredConfig.config()
-					.encoderConfig(
-						EncoderConfig.encoderConfig().
-							encodeContentTypeAs(MediaType.APPLICATION_YAML_VALUE, ContentType.TEXT))
-			).spec(specification)
-			.contentType(MediaType.APPLICATION_YAML_VALUE)
-			.accept(MediaType.APPLICATION_YAML_VALUE)
-			.body(book, objectMapper)
+		var content = given(specification)
+			.contentType(MediaType.APPLICATION_XML_VALUE)
+			.accept(MediaType.APPLICATION_XML_VALUE)
+			.body(book)
 			.when()
 			.post()
 			.then()
 			.statusCode(200)
-			.contentType(MediaType.APPLICATION_YAML_VALUE)
+			.contentType(MediaType.APPLICATION_XML_VALUE)
 			.extract()
 			.body()
-			.as(BookDTO.class, objectMapper);
+			.asString();
 		
+		BookDTO createdBook = objectMapper.readValue(content, BookDTO.class);
 		book = createdBook;
 		
 		assertNotNull(createdBook.getId());
@@ -115,7 +106,6 @@ class BookControllerYamlTest extends AbstractIntegrationTest {
 		assertEquals("Docker Deep Dive", book.getTitle());
 		assertEquals("Nigel Poulton", book.getAuthor());
 		assertEquals(55.99, book.getPrice());
-		
 	}
 	
 	@Test
@@ -124,24 +114,20 @@ class BookControllerYamlTest extends AbstractIntegrationTest {
 		
 		book.setTitle("Docker Deep Dive - Updated");
 		
-		var createdBook = given().config(
-				RestAssuredConfig.config()
-					.encoderConfig(
-						EncoderConfig.encoderConfig().
-							encodeContentTypeAs(MediaType.APPLICATION_YAML_VALUE, ContentType.TEXT))
-			).spec(specification)
-			.contentType(MediaType.APPLICATION_YAML_VALUE)
-			.accept(MediaType.APPLICATION_YAML_VALUE)
-			.body(book, objectMapper)
+		var content = given(specification)
+			.contentType(MediaType.APPLICATION_XML_VALUE)
+			.accept(MediaType.APPLICATION_XML_VALUE)
+			.body(book)
 			.when()
 			.put()
 			.then()
 			.statusCode(200)
-			.contentType(MediaType.APPLICATION_YAML_VALUE)
+			.contentType(MediaType.APPLICATION_XML_VALUE)
 			.extract()
 			.body()
-			.as(BookDTO.class, objectMapper);
+			.asString();
 		
+		BookDTO createdBook = objectMapper.readValue(content, BookDTO.class);
 		book = createdBook;
 		
 		assertNotNull(createdBook.getId());
@@ -149,31 +135,26 @@ class BookControllerYamlTest extends AbstractIntegrationTest {
 		assertEquals("Docker Deep Dive - Updated", book.getTitle());
 		assertEquals("Nigel Poulton", book.getAuthor());
 		assertEquals(55.99, book.getPrice());
-		
 	}
 	
 	@Test
 	@Order(3)
 	void findByIdTest() throws JsonProcessingException {
 		
-		var createdBook = given().config(
-				RestAssuredConfig.config()
-					.encoderConfig(
-						EncoderConfig.encoderConfig().
-							encodeContentTypeAs(MediaType.APPLICATION_YAML_VALUE, ContentType.TEXT))
-			).spec(specification)
-			.contentType(MediaType.APPLICATION_YAML_VALUE)
-			.accept(MediaType.APPLICATION_YAML_VALUE)
+		var content = given(specification)
+			.contentType(MediaType.APPLICATION_XML_VALUE)
+			.accept(MediaType.APPLICATION_XML_VALUE)
 			.pathParam("id", book.getId())
 			.when()
 			.get("{id}")
 			.then()
 			.statusCode(200)
-			.contentType(MediaType.APPLICATION_YAML_VALUE)
+			.contentType(MediaType.APPLICATION_XML_VALUE)
 			.extract()
 			.body()
-			.as(BookDTO.class, objectMapper);
+			.asString();
 		
+		BookDTO createdBook = objectMapper.readValue(content, BookDTO.class);
 		book = createdBook;
 		
 		assertNotNull(createdBook.getId());
@@ -203,21 +184,22 @@ class BookControllerYamlTest extends AbstractIntegrationTest {
 	@Order(5)
 	void findAllTest() throws JsonProcessingException {
 		
-		var response = given(specification)
-			.accept(MediaType.APPLICATION_YAML_VALUE)
+		var content = given(specification)
+			.accept(MediaType.APPLICATION_XML_VALUE)
 			.queryParams("page", 9 , "size", 12, "direction", "asc")
 			.when()
 			.get()
 			.then()
 			.statusCode(200)
-			.contentType(MediaType.APPLICATION_YAML_VALUE)
+			.contentType(MediaType.APPLICATION_XML_VALUE)
 			.extract()
 			.body()
-			.as(PagedModelBook.class, objectMapper);
+			.asString();
 		
-		List<BookDTO> content = response.getContent();
+		PagedModelBook wrapper = objectMapper.readValue(content, PagedModelBook.class);
+		var books = wrapper.getContent();
 		
-		BookDTO bookOne = content.get(0);
+		BookDTO bookOne = books.get(0);
 		
 		assertNotNull(bookOne.getId());
 		assertNotNull(bookOne.getTitle());
@@ -228,7 +210,7 @@ class BookControllerYamlTest extends AbstractIntegrationTest {
 		assertEquals("James Shore e Shane Warden", bookOne.getAuthor());
 		assertEquals(97.21, bookOne.getPrice());
 		
-		BookDTO foundBookSeven = content.get(7);
+		BookDTO foundBookSeven = books.get(7);
 		
 		assertNotNull(foundBookSeven.getId());
 		assertNotNull(foundBookSeven.getTitle());
