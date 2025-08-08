@@ -1,23 +1,28 @@
-version: '3.8'
+version: '3.8'  # Versão da especificação do Docker Compose
 
-services:
-  mysql:
-    image: mysql:8.0
-    container_name: mysql_db
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: mydb
-      MYSQL_USER: user
-      MYSQL_PASSWORD: pass
-    ports:
-      - "3307:3306"
-    volumes:
-      - dbdata:/var/lib/mysql
-    networks:
-      - springboot-mysql
+services:       # Definição dos serviços que serão orquestrados
+  mysql:        # Nome do serviço (usado internamente para rede e dependências)
+    image: mysql:8.0          # Imagem oficial do MySQL com a versão 8.0
+    container_name: mysql_db  # Nome do container (opcional, facilita a identificação)
 
-volumes:
-  dbdata:
+    environment:              # Variáveis de ambiente utilizadas na configuração inicial do MySQL
+      MYSQL_USER: user            # Nome do usuário padrão a ser criado
+      MYSQL_ROOT_PASSWORD: root   # Senha do usuário root (administrador)
+      MYSQL_DATABASE: mydb        # Banco de dados padrão a ser criado na inicialização
 
-networks:
-  springboot-mysql:
+    ports:                    # Mapeamento de portas: [host:container]
+      - "3307:3306"           # Porta 3307 no host será redirecionada para a 3306 do container
+
+    volumes:                   # Mapeamento de volume para persistência dos dados
+      - dbdata:/var/lib/mysql  # Volume nomeado para armazenar os dados do banco
+
+    networks:             # Redes para permitir comunicação entre containers
+      - springboot-mysql  # Rede personalizada que pode ser compartilhada com outros serviços
+
+
+volumes:            # Definição dos volumes nomeados (armazenamento persistente)
+  dbdata:           # Volume nomeado usado pelo serviço MySQL
+
+
+networks:            # Definição das redes personalizadas
+  springboot-mysql:  # Rede Docker utilizada para comunicação entre serviços
