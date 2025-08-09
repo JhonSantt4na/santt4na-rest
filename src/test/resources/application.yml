@@ -1,9 +1,9 @@
 server:
   port: 8888
 cors:
-  originPatterns: http://localhost:8080,http://localhost:3000
+  originPatterns: http://localhost:8081,http://localhost:3000
 file:
-  upload-dir: ./uploads
+  upload-dir: /home/runner/work/santt4na-rest/uploads
 email:
   subject:"Default Subject"
   message:"Default Message"
