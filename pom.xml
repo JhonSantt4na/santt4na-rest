@@ -12,7 +12,7 @@
 	<groupId>com.jhonn</groupId>
 	<artifactId>santt4na-rest</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>santt4na-rest</name>
+	<name>HighLoadAPI</name>
 	<description>Demo project for Spring Boot</description>
 
 	<properties>

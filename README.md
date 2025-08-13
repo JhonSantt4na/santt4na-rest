@@ -1,11 +1,11 @@
-# 🚀 API REST Santt4na 🚀
+# 🚀 HighLoadAPI – performance sob alta carga 🚀
 
 [![Java](https://img.shields.io/badge/Java-21-blue.svg)](https://www.oracle.com/java/)
 [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.2.x-brightgreen)](https://spring.io/projects/spring-boot)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Build Status](https://img.shields.io/badge/build-passing-brightgreen)](README.md)
-[![GitHub issues](https://img.shields.io/github/issues/JhonSantt4na/santt4na-rest)](https://github.com/JhonSantt4na/santt4na-rest/issues)
-[![Cobertura de Testes](https://img.shields.io/badge/coverage-60%25-green)](https://github.com/JhonSantt4na/santt4na-rest) <!-- Integre com JaCoCo ou SonarQube -->
+[![GitHub issues](https://img.shields.io/github/issues/JhonSantt4na/HighLoadAPI)](https://github.com/JhonSantt4na/HighLoadAPI/issues)
+[![Cobertura de Testes](https://img.shields.io/badge/coverage-60%25-green)](https://github.com/JhonSantt4na/HighLoadAPI) <!-- Integre com JaCoCo ou SonarQube -->
 
 ![Banner do Projeto](images/Banner.png)
 
@@ -25,26 +25,26 @@ Esta é uma API RESTful robusta desenvolvida com Spring Boot para gerenciamento 
 - **Content Negotiation**: Respostas em múltiplos formatos: JSON, XML ou YAML, baseado no header Accept.
 - **Cadastro de Usuários e Livros**: Endpoints dedicados para gerenciamento de usuários e biblioteca de livros.
 - **Tratamento de Exceções Avançado**: Respostas personalizadas para erros, melhorando a usabilidade.
-- **Testes Abrangentes**: Mais de 80 testes unitários e de integração, com cobertura estimada em 85%.
+- **Testes Abrangentes**: Mais de 80 testes unitários e de integração, com cobertura estimada em 60%.
 - **Conteinerização e CI/CD**: Suporte a Docker e deploy contínuo via GitHub Actions.
 
 ## 🛠️ Instruções de Configuração
 ### Pré-requisitos
 - JDK 21 ou superior
 - Maven 3.6 ou superior
-- MySQL 5.7 ou superior (crie um banco chamado `santt4na_rest`)
+- MySQL 5.7 ou superior (crie um banco chamado `HighLoadApi`)
 - Docker (opcional para conteinerização)
 
 ### Instalação
 1. Clone o repositório:
    ```
-   git clone https://github.com/JhonSantt4na/santt4na-rest.git
-   cd santt4na-rest
+   git clone https://github.com/JhonSantt4na/HighLoadAPI.git
+   cd HighLoadAPI
    ```
 
 2. Configure o banco de dados em `src/main/resources/application.properties`:
    ```
-   spring.datasource.url=jdbc:mysql://localhost:3306/santt4na_rest?useSSL=false&serverTimezone=UTC
+   spring.datasource.url=jdbc:mysql://localhost:3306/HighLoadAPI?useSSL=false&serverTimezone=UTC
    spring.datasource.username=seu_usuario
    spring.datasource.password=sua_senha
    # Configurações de email (exemplo)
