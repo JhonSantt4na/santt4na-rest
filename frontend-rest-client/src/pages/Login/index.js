@@ -1,75 +1,58 @@
+
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './style.css';
-import logo1 from '../../assets/padlock.png'; 
-import logo from '../../assets/logo.svg';
 
-const Login = () => {
-  const [mode, setMode] = useState('login');
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-  });
+import api from '../../services/api';
+import logoImage from '../../assets/logo.svg';
+import padlock from '../../assets/padlock.png';
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+export default function Login() {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  async function login(e) {
     e.preventDefault();
-    console.log('Form submitted:', formData);
-  };
+
+    const data = {
+      username,
+      password,
+    };
+
+    try {
+      const response = await api.post('/auth/signin', data);
+      localStorage.setItem('username', username);
+      localStorage.setItem('accessToken', response.data.token);
+      navigate('/books');
+    } catch (err) {
+      alert('Login failed! Try again!');
+    }
+  }
 
   return (
-    <div className="container">
-      <img src={logo1} alt="Cadastre-se" className="logo" />
-      <img src={logo} alt="Cadastre-se" className="logo1" />
-      <h1>{mode === 'login' ? 'Login' : 'Cadastro'}</h1>
-      <form onSubmit={handleSubmit}>
-        {mode === 'signup' && (
+    <div className="login-container">
+      <section className="form">
+        <img src={logoImage} alt="Erudio Logo" />
+        <form onSubmit={login}>
+          <h1>Access your Account</h1>
           <input
-            type="text"
-            name="name"
-            placeholder="Nome"
-            value={formData.name}
-            onChange={handleChange}
-            required
+            placeholder="Username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
           />
-        )}
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          value={formData.email}
-          onChange={handleChange}
-          required
-        />
-        <input
-          type="password"
-          name="password"
-          placeholder="Senha"
-          value={formData.password}
-          onChange={handleChange}
-          required
-        />
-        {mode === 'signup' && (
           <input
             type="password"
-            name="confirmPassword"
-            placeholder="Confirme a Senha"
-            value={formData.confirmPassword}
-            onChange={handleChange}
-            required
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
-        )}
-        <button type="submit">{mode === 'login' ? 'Entrar' : 'Cadastrar'}</button>
-      </form>
-      <p className="switch" onClick={() => setMode(mode === 'login' ? 'signup' : 'login')}>
-        {mode === 'login' ? 'Não tem conta? Cadastre-se' : 'Já tem conta? Faça login'}
-      </p>
+          <button className="button" type="submit">
+            Login
+          </button>
+        </form>
+      </section>
+      <img src={padlock} alt="Login" />
     </div>
   );
-};
-
-export default Login;
+}

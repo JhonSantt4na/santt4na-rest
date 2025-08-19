@@ -1,9 +1,14 @@
-import React, { useState } from 'react';
-import './global.css';
-import Login from './pages/Login';
+// src/App.js
+import React from 'react';
+import { BrowserRouter } from 'react-router-dom';
+import Routes from './routes';
 
-export default function App() {
+function App() {
   return (
-    <Login />
+    <BrowserRouter>
+      <Routes />
+    </BrowserRouter>
   );
 }
+
+export default App;
